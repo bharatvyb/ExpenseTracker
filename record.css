@@ -14,19 +14,53 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2 {
+h1 {
     text-align: center;
     color: #3c3c3c;
     margin-bottom: 20px;
 }
 
+/* Tabs Styling */
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tablink {
+    flex: 1;
+    padding: 10px;
+    background: #e9e9e9;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+}
+
+.tablink.active, .tablink:hover {
+    background: #dcdcdc;
+    color: #000;
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.tabcontent.active {
+    display: block;
+}
+
+/* Form Styles */
 form {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     gap: 15px;
 }
 
-input, button {
+input, select, button {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ddd;
@@ -44,31 +78,6 @@ button {
 
 button:hover {
     background-color: #0056b3;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-table th {
-    background-color: #f1f1f1;
-    font-weight: bold;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.edit-btn {
-    margin-right: 5px;
 }
 
 .bottom-menu {
@@ -94,9 +103,4 @@ table tbody tr:nth-child(even) {
 
 .menu-item:hover {
     background-color: #444;
-}
-
-/* Extra space at the bottom to avoid collision with the bottom menu */
-.container {
-    padding-bottom: 60px; /* Add this to ensure space between last item and bottom menu */
 }

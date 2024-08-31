@@ -79,6 +79,33 @@ table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+/* Button Styles */
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
 /* Modal Styles */
 .modal {
     display: none;

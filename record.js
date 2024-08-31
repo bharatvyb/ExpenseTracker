@@ -38,12 +38,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadDropdownValues() {
-    const revenueSelect = document.getElementById('revenue-method');
-    const outgoSelect = document.getElementById('outgo-method');
+    const revenueMethodSelect = document.getElementById('revenue-method');
+    const outgoMethodSelect = document.getElementById('outgo-method');
+    const revenueCategorySelect = document.getElementById('revenue-category');
+    const outgoCategorySelect = document.getElementById('outgo-category');
+    
     const methods = JSON.parse(localStorage.getItem('methods')) || [];
+    const categories = JSON.parse(localStorage.getItem('categories')) || [];
 
-    revenueSelect.innerHTML = '';
-    outgoSelect.innerHTML = '';
+    revenueMethodSelect.innerHTML = '';
+    outgoMethodSelect.innerHTML = '';
+    revenueCategorySelect.innerHTML = '';
+    outgoCategorySelect.innerHTML = '';
+
     methods.forEach(method => {
         const option1 = document.createElement('option');
         const option2 = document.createElement('option');
@@ -51,7 +58,18 @@ function loadDropdownValues() {
         option1.textContent = method;
         option2.value = method;
         option2.textContent = method;
-        revenueSelect.appendChild(option1);
-        outgoSelect.appendChild(option2);
+        revenueMethodSelect.appendChild(option1);
+        outgoMethodSelect.appendChild(option2);
+    });
+
+    categories.forEach(category => {
+        const option1 = document.createElement('option');
+        const option2 = document.createElement('option');
+        option1.value = category;
+        option1.textContent = category;
+        option2.value = category;
+        option2.textContent = category;
+        revenueCategorySelect.appendChild(option1);
+        outgoCategorySelect.appendChild(option2);
     });
 }

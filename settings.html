@@ -9,11 +9,13 @@
 <body>
     <div class="container">
         <h1>Settings</h1>
+        
         <h2>Manage Payment Methods</h2>
         <form id="method-form">
             <input type="text" id="new-method" placeholder="Add new payment method">
             <button type="submit">Add</button>
         </form>
+
         <table id="method-table">
             <thead>
                 <tr>
@@ -22,8 +24,30 @@
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody id="method-list"></tbody>
+            <tbody id="method-list">
+                <!-- Existing methods will be populated here -->
+            </tbody>
         </table>
+
+        <h2>Manage Categories</h2>
+        <form id="category-form">
+            <input type="text" id="new-category" placeholder="Add new category">
+            <button type="submit">Add</button>
+        </form>
+
+        <table id="category-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="category-list">
+                <!-- Existing categories will be populated here -->
+            </tbody>
+        </table>
+
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item">Monthly</a>

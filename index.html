@@ -4,40 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BharatVyb Expense Tracker - Record</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="record.css">
     <link rel="manifest" href="/manifest.json">
 </head>
 <body>
     <div class="container">
         <h1>BharatVyb Expense Tracker</h1>
+        
         <div class="tabs">
             <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
             <button class="tablink" onclick="openTab(event, 'OutGo')" id="defaultOpen">OutGo</button>
         </div>
+
         <div id="Revenue" class="tabcontent">
             <form id="revenue-form">
                 <label for="revenue-date">Date</label>
                 <input type="date" id="revenue-date" required>
+                
                 <input type="number" id="revenue-amount" placeholder="Revenue" required>
                 <input type="text" id="revenue-memo" placeholder="Memo">
-                <input type="text" id="revenue-category" placeholder="Category">
+                <label for="revenue-category">Category</label>
+                <select id="revenue-category">
+                    <!-- Dynamically populated options will be here -->
+                </select>
                 <label for="revenue-method">Payment Method</label>
-                <select id="revenue-method"></select>
+                <select id="revenue-method">
+                    <!-- Dynamically populated options will be here -->
+                </select>
                 <button type="submit">Add Revenue</button>
             </form>
         </div>
+
         <div id="OutGo" class="tabcontent">
             <form id="outgo-form">
                 <label for="outgo-date">Date</label>
                 <input type="date" id="outgo-date" required>
+                
                 <input type="number" id="outgo-amount" placeholder="OutGo" required>
                 <input type="text" id="outgo-memo" placeholder="Memo">
-                <input type="text" id="outgo-category" placeholder="Category">
+                <label for="outgo-category">Category</label>
+                <select id="outgo-category">
+                    <!-- Dynamically populated options will be here -->
+                </select>
                 <label for="outgo-method">Payment Method</label>
-                <select id="outgo-method"></select>
+                <select id="outgo-method">
+                    <!-- Dynamically populated options will be here -->
+                </select>
                 <button type="submit">Add OutGo</button>
             </form>
         </div>
+        
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item">Monthly</a>
@@ -60,15 +76,18 @@
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
         window.onload = function() {
             document.getElementById("defaultOpen").click();
             setDefaultDate();
         };
+
         function setDefaultDate() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('revenue-date').value = today;
             document.getElementById('outgo-date').value = today;
         }
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
             .then(function(registration) {

@@ -18,6 +18,8 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
+// Existing code...
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Page loaded, initializing...");
     loadMonthlyData();
@@ -54,10 +56,22 @@ function loadRevenueData() {
         row.insertCell(3).textContent = revenue.category;
         row.insertCell(4).textContent = revenue.method;
 
-        // Add the > symbol to indicate editability
-        row.insertCell(5).textContent = '>';
-
-        row.addEventListener('click', () => openEditModal('revenue', index));
+        // Add buttons for Edit and Delete
+        let editCell = row.insertCell(5);
+        let deleteCell = row.insertCell(6);
+        
+        let editBtn = document.createElement('button');
+        editBtn.textContent = 'E';
+        editBtn.className = 'edit-btn';
+        editBtn.addEventListener('click', () => openEditModal('revenue', index));
+        
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'D';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', () => deleteTransaction('revenue', index));
+        
+        editCell.appendChild(editBtn);
+        deleteCell.appendChild(deleteBtn);
     });
 }
 
@@ -83,10 +97,22 @@ function loadOutGoData() {
         row.insertCell(3).textContent = outgo.category;
         row.insertCell(4).textContent = outgo.method;
 
-        // Add the > symbol to indicate editability
-        row.insertCell(5).textContent = '>';
-
-        row.addEventListener('click', () => openEditModal('outgo', index));
+        // Add buttons for Edit and Delete
+        let editCell = row.insertCell(5);
+        let deleteCell = row.insertCell(6);
+        
+        let editBtn = document.createElement('button');
+        editBtn.textContent = 'E';
+        editBtn.className = 'edit-btn';
+        editBtn.addEventListener('click', () => openEditModal('outgo', index));
+        
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'D';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', () => deleteTransaction('outgo', index));
+        
+        editCell.appendChild(editBtn);
+        deleteCell.appendChild(deleteBtn);
     });
 }
 
@@ -113,10 +139,22 @@ function loadAllData() {
         row.insertCell(3).textContent = revenue.category;
         row.insertCell(4).textContent = revenue.method;
 
-        // Add the > symbol to indicate editability
-        row.insertCell(5).textContent = '>';
-
-        row.addEventListener('click', () => openEditModal('revenue', index));
+        // Add buttons for Edit and Delete
+        let editCell = row.insertCell(5);
+        let deleteCell = row.insertCell(6);
+        
+        let editBtn = document.createElement('button');
+        editBtn.textContent = 'E';
+        editBtn.className = 'edit-btn';
+        editBtn.addEventListener('click', () => openEditModal('revenue', index));
+        
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'D';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', () => deleteTransaction('revenue', index));
+        
+        editCell.appendChild(editBtn);
+        deleteCell.appendChild(deleteBtn);
     });
 
     outgoes.forEach((outgo, index) => {
@@ -130,14 +168,25 @@ function loadAllData() {
         row.insertCell(3).textContent = outgo.category;
         row.insertCell(4).textContent = outgo.method;
 
-        // Add the > symbol to indicate editability
-        row.insertCell(5).textContent = '>';
-
-        row.addEventListener('click', () => openEditModal('outgo', index));
+        // Add buttons for Edit and Delete
+        let editCell = row.insertCell(5);
+        let deleteCell = row.insertCell(6);
+        
+        let editBtn = document.createElement('button');
+        editBtn.textContent = 'E';
+        editBtn.className = 'edit-btn';
+        editBtn.addEventListener('click', () => openEditModal('outgo', index));
+        
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'D';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', () => deleteTransaction('outgo', index));
+        
+        editCell.appendChild(editBtn);
+        deleteCell.appendChild(deleteBtn);
     });
 }
 
-// Modal setup function
 function setupModal() {
     const modal = document.getElementById('edit-modal');
     const closeModalBtn = document.getElementById('close-modal');
@@ -153,8 +202,8 @@ function setupModal() {
     }
 }
 
-// Open Edit Modal function
 function openEditModal(type, index) {
+    console.log(`Opening modal for type: ${type}, index: ${index}`);
     const modal = document.getElementById('edit-modal');
     const editForm = document.getElementById('edit-form');
     const transactions = JSON.parse(localStorage.getItem(type)) || [];
@@ -179,6 +228,21 @@ function openEditModal(type, index) {
             option.selected = true;
         }
         paymentMethodDropdown.appendChild(option);
+    });
+
+    // Populate the category dropdown
+    const categoryDropdown = document.getElementById('edit-category');
+    const categories = JSON.parse(localStorage.getItem('categories')) || ['Shopping', 'Cabs', 'CC Bill', 'Hospital', 'Medicines', 'Vegetables', 'Fruits', 'Groceries', 'Milk', 'Subscription', 'School Fee', 'Office Expenses'];
+    categoryDropdown.innerHTML = '';  // Clear existing options
+
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        if (category === transaction.category) {
+            option.selected = true;
+        }
+        categoryDropdown.appendChild(option);
     });
 
     modal.style.display = 'block';
@@ -209,5 +273,13 @@ function saveEdit(type, index) {
     localStorage.setItem(type, JSON.stringify(transactions));
 
     closeModal();
+    loadMonthlyData();  // Reload the data to reflect the changes
+}
+
+function deleteTransaction(type, index) {
+    console.log(`Deleting transaction for type: ${type}, index: ${index}`);
+    let transactions = JSON.parse(localStorage.getItem(type)) || [];
+    transactions.splice(index, 1);
+    localStorage.setItem(type, JSON.stringify(transactions));
     loadMonthlyData();  // Reload the data to reflect the changes
 }
