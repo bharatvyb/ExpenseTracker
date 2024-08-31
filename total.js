@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Load all the data
     loadTotalData();
-    // Simulate a click on the OutGo tab to make it the default tab
-    document.getElementById('defaultOpenOutGo').click();
+    // Ensure the correct tab is opened by default
+    document.getElementById('defaultOpenTotal').click();
 });
 
 function loadTotalData() {
@@ -17,7 +16,7 @@ function loadTotalRevenueData() {
     const monthlyRevenue = calculateMonthlyTotals(revenues);
     
     revenueTable.innerHTML = '';
-    revenueTable.innerHTML += generateTotalsHtml(monthlyRevenue, 'Revenue');
+    revenueTable.innerHTML += generateTotalsHtml(monthlyRevenue);
 }
 
 function loadTotalOutGoData() {
@@ -26,7 +25,7 @@ function loadTotalOutGoData() {
     const monthlyOutGo = calculateMonthlyTotals(outgoes);
     
     outgoTable.innerHTML = '';
-    outgoTable.innerHTML += generateTotalsHtml(monthlyOutGo, 'OutGo');
+    outgoTable.innerHTML += generateTotalsHtml(monthlyOutGo);
 }
 
 function loadTotalAllData() {
@@ -39,12 +38,10 @@ function loadTotalAllData() {
     
     const monthlyAll = {};
 
-    // Calculate totals for months with either revenue or outgo
     for (let month in monthlyRevenue) {
         monthlyAll[month] = (monthlyRevenue[month] || 0) - (monthlyOutGo[month] || 0);
     }
     
-    // Ensure that months with only outgoes are included in the monthlyAll calculation
     for (let month in monthlyOutGo) {
         if (!monthlyAll[month]) {
             monthlyAll[month] = -monthlyOutGo[month];
@@ -52,7 +49,7 @@ function loadTotalAllData() {
     }
 
     allTable.innerHTML = '';
-    allTable.innerHTML += generateTotalsHtml(monthlyAll, 'All');
+    allTable.innerHTML += generateTotalsHtml(monthlyAll);
 }
 
 function calculateMonthlyTotals(transactions) {
@@ -69,7 +66,7 @@ function calculateMonthlyTotals(transactions) {
     return totals;
 }
 
-function generateTotalsHtml(monthlyData, type) {
+function generateTotalsHtml(monthlyData) {
     let html = '';
     let overallTotal = 0;
     

@@ -4,53 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BharatVyb Expense Tracker - Record</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Link to the manifest file -->
+    <link rel="stylesheet" href="index.css">
     <link rel="manifest" href="/manifest.json">
 </head>
 <body>
     <div class="container">
         <h1>BharatVyb Expense Tracker</h1>
-        
-        <!-- Internal Tabs for Record Page -->
         <div class="tabs">
             <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
             <button class="tablink" onclick="openTab(event, 'OutGo')" id="defaultOpen">OutGo</button>
         </div>
-
         <div id="Revenue" class="tabcontent">
             <form id="revenue-form">
                 <label for="revenue-date">Date</label>
                 <input type="date" id="revenue-date" required>
-                
                 <input type="number" id="revenue-amount" placeholder="Revenue" required>
                 <input type="text" id="revenue-memo" placeholder="Memo">
                 <input type="text" id="revenue-category" placeholder="Category">
                 <label for="revenue-method">Payment Method</label>
-                <select id="revenue-method">
-                    <!-- Dynamically populated options will be here -->
-                </select>
+                <select id="revenue-method"></select>
                 <button type="submit">Add Revenue</button>
             </form>
         </div>
-
         <div id="OutGo" class="tabcontent">
             <form id="outgo-form">
                 <label for="outgo-date">Date</label>
                 <input type="date" id="outgo-date" required>
-                
                 <input type="number" id="outgo-amount" placeholder="OutGo" required>
                 <input type="text" id="outgo-memo" placeholder="Memo">
                 <input type="text" id="outgo-category" placeholder="Category">
                 <label for="outgo-method">Payment Method</label>
-                <select id="outgo-method">
-                    <!-- Dynamically populated options will be here -->
-                </select>
+                <select id="outgo-method"></select>
                 <button type="submit">Add OutGo</button>
             </form>
         </div>
-        
-        <!-- Bottom Menu -->
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item">Monthly</a>
@@ -60,7 +47,6 @@
     </div>
     <script src="record.js?v=1.0"></script>
     <script>
-        // JavaScript for handling tab navigation and setting the default date
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
@@ -74,21 +60,15 @@
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
-
-        // Open the default tab (OutGo) on page load
         window.onload = function() {
             document.getElementById("defaultOpen").click();
             setDefaultDate();
         };
-
-        // Function to set the default date to today's date
         function setDefaultDate() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('revenue-date').value = today;
             document.getElementById('outgo-date').value = today;
         }
-
-        // Register the service worker for PWA functionality
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
             .then(function(registration) {

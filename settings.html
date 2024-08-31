@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker - Settings</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="settings.css">
 </head>
 <body>
     <div class="container">
         <h1>Settings</h1>
-        
-        <!-- Manage Method Dropdown -->
         <h2>Manage Payment Methods</h2>
         <form id="method-form">
             <input type="text" id="new-method" placeholder="Add new payment method">
             <button type="submit">Add</button>
         </form>
-
         <table id="method-table">
             <thead>
                 <tr>
@@ -25,12 +22,8 @@
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody id="method-list">
-                <!-- Existing methods will be populated here -->
-            </tbody>
+            <tbody id="method-list"></tbody>
         </table>
-
-        <!-- Bottom Menu -->
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item">Monthly</a>
@@ -38,7 +31,6 @@
             <a href="settings.html" class="menu-item active">Settings</a>
         </div>
     </div>
-    <!-- Add a version query string to the script tag -->
     <script src="settings.js?v=1.0"></script>
 </body>
 </html>

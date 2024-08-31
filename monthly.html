@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BharatVyb Expense Tracker - Monthly</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="monthly.css">
 </head>
 <body>
     <div class="container">
         <h1>Monthly Transactions</h1>
-        
-        <!-- Internal Tabs for Monthly Page -->
         <div class="tabs">
             <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
             <button class="tablink" onclick="openTab(event, 'All')">All</button>
             <button class="tablink" onclick="openTab(event, 'OutGo')" id="defaultOpenMonthly">OutGo</button>
         </div>
-
         <div id="Revenue" class="tabcontent">
             <table id="revenue-table">
                 <thead>
@@ -28,12 +25,9 @@
                         <th>Method</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Revenue data will be populated here -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
-
         <div id="All" class="tabcontent">
             <table id="all-table">
                 <thead>
@@ -45,12 +39,9 @@
                         <th>Method</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- All data will be populated here -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
-
         <div id="OutGo" class="tabcontent">
             <table id="outgo-table">
                 <thead>
@@ -62,13 +53,9 @@
                         <th>Method</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- OutGo data will be populated here -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
-
-        <!-- Modal for Editing Transaction -->
         <div id="edit-modal" class="modal">
             <div class="modal-content">
                 <span class="close" id="close-modal">&times;</span>
@@ -76,28 +63,19 @@
                 <form id="edit-form">
                     <label for="edit-date">Date</label>
                     <input type="date" id="edit-date" required>
-                    
                     <label for="edit-amount">Amount</label>
                     <input type="number" id="edit-amount" required>
-                    
                     <label for="edit-memo">Memo</label>
                     <input type="text" id="edit-memo">
-                    
                     <label for="edit-category">Category</label>
                     <input type="text" id="edit-category">
-                    
                     <label for="edit-method">Payment Method</label>
-                    <select id="edit-method">
-                        <!-- Options will be populated dynamically -->
-                    </select>
-                    
+                    <select id="edit-method"></select>
                     <button type="submit">Save</button>
                     <button type="button" id="cancel-edit">Cancel</button>
                 </form>
             </div>
         </div>
-
-        <!-- Bottom Menu -->
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item active">Monthly</a>
@@ -107,25 +85,7 @@
     </div>
     <script src="monthly.js?v=1.0"></script>
     <script>
-        // JavaScript for handling tab navigation
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablink");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // Set the default open tab to OutGo
         document.getElementById("defaultOpenMonthly").click();
-
-        // Load the data when the page loads
         document.addEventListener('DOMContentLoaded', loadMonthlyData);
     </script>
 </body>

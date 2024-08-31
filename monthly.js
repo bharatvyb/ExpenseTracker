@@ -137,6 +137,7 @@ function loadAllData() {
     });
 }
 
+// Modal setup function
 function setupModal() {
     const modal = document.getElementById('edit-modal');
     const closeModalBtn = document.getElementById('close-modal');
@@ -152,8 +153,8 @@ function setupModal() {
     }
 }
 
+// Open Edit Modal function
 function openEditModal(type, index) {
-    console.log(`Opening modal for type: ${type}, index: ${index}`);
     const modal = document.getElementById('edit-modal');
     const editForm = document.getElementById('edit-form');
     const transactions = JSON.parse(localStorage.getItem(type)) || [];
