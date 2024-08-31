@@ -2,10 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDefaultMethods();
     initializeDefaultCategories();
     loadDropdownValues();
-    loadCategoryValues();
-
-    // Add event listener for export button
-    document.getElementById('export-data').addEventListener('click', exportData);
+    setupExportButton();
 });
 
 function initializeDefaultMethods() {
@@ -26,8 +23,11 @@ function initializeDefaultCategories() {
 
 function loadDropdownValues() {
     const methodTableBody = document.getElementById('method-list');
+    const categoryTableBody = document.getElementById('category-list');
     const methods = JSON.parse(localStorage.getItem('methods')) || [];
+    const categories = JSON.parse(localStorage.getItem('categories')) || [];
 
+    // Load Methods
     methodTableBody.innerHTML = '';
     methods.forEach((method, index) => {
         const row = methodTableBody.insertRow();
@@ -41,23 +41,19 @@ function loadDropdownValues() {
         editButton.textContent = 'Edit';
         editButton.className = 'edit-btn';
         editButton.onclick = function() {
-            editDropdownValue('methods', index);
+            editDropdownValue(index, 'methods');
         };
         cell2.appendChild(editButton);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.onclick = function() {
-            deleteDropdownValue('methods', index);
+            deleteDropdownValue(index, 'methods');
         };
         cell3.appendChild(deleteButton);
     });
-}
 
-function loadCategoryValues() {
-    const categoryTableBody = document.getElementById('category-list');
-    const categories = JSON.parse(localStorage.getItem('categories')) || [];
-
+    // Load Categories
     categoryTableBody.innerHTML = '';
     categories.forEach((category, index) => {
         const row = categoryTableBody.insertRow();
@@ -71,14 +67,14 @@ function loadCategoryValues() {
         editButton.textContent = 'Edit';
         editButton.className = 'edit-btn';
         editButton.onclick = function() {
-            editDropdownValue('categories', index);
+            editDropdownValue(index, 'categories');
         };
         cell2.appendChild(editButton);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.onclick = function() {
-            deleteDropdownValue('categories', index);
+            deleteDropdownValue(index, 'categories');
         };
         cell3.appendChild(deleteButton);
     });
@@ -104,55 +100,69 @@ document.getElementById('category-form').addEventListener('submit', function(e) 
         categories.push(newCategory);
         localStorage.setItem('categories', JSON.stringify(categories));
         document.getElementById('new-category').value = '';
-        loadCategoryValues();
+        loadDropdownValues();
     }
 });
 
-function deleteDropdownValue(type, index) {
+function deleteDropdownValue(index, type) {
     let items = JSON.parse(localStorage.getItem(type)) || [];
     items.splice(index, 1);
     localStorage.setItem(type, JSON.stringify(items));
-    if (type === 'methods') {
-        loadDropdownValues();
-    } else if (type === 'categories') {
-        loadCategoryValues();
-    }
+    loadDropdownValues();
 }
 
-function editDropdownValue(type, index) {
+function editDropdownValue(index, type) {
     let items = JSON.parse(localStorage.getItem(type)) || [];
     const newValue = prompt("Edit the value:", items[index]);
     if (newValue !== null && newValue.trim() !== "") {
         items[index] = newValue.trim();
         localStorage.setItem(type, JSON.stringify(items));
-        if (type === 'methods') {
-            loadDropdownValues();
-        } else if (type === 'categories') {
-            loadCategoryValues();
-        }
+        loadDropdownValues();
     }
 }
 
-function exportData() {
-    const revenues = JSON.parse(localStorage.getItem('revenue')) || [];
-    const outgoes = JSON.parse(localStorage.getItem('outgo')) || [];
+// Export functionality
+function setupExportButton() {
+    document.getElementById('export-btn').addEventListener('click', function() {
+        const data = {
+            revenue: JSON.parse(localStorage.getItem('revenue')) || [],
+            outgo: JSON.parse(localStorage.getItem('outgo')) || []
+        };
 
-    let csvContent = "data:text/tab-separated-values;charset=utf-8,";
-    csvContent += "Date\tAmount\tMemo\tCategory\tMethod\tType\n";
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const filename = `Expense-Backup-${timestamp}.tsv`;
 
-    revenues.forEach(revenue => {
-        csvContent += `${revenue.date}\t${revenue.amount}\t${revenue.memo}\t${revenue.category}\t${revenue.method}\tRevenue\n`;
+        const tsvContent = convertToTSV(data);
+        downloadTSV(tsvContent, filename);
+    });
+}
+
+function convertToTSV(data) {
+    const rows = [];
+    rows.push("Date\tAmount\tMemo\tCategory\tMethod\tType");
+
+    data.revenue.forEach(item => {
+        rows.push(`${item.date}\t${item.amount}\t${item.memo}\t${item.category}\t${item.method}\tRevenue`);
     });
 
-    outgoes.forEach(outgo => {
-        csvContent += `${outgo.date}\t${outgo.amount}\t${outgo.memo}\t${outgo.category}\t${outgo.method}\tOutGo\n`;
+    data.outgo.forEach(item => {
+        rows.push(`${item.date}\t${item.amount}\t${item.memo}\t${item.category}\t${item.method}\tOutGo`);
     });
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'expense_data.tsv');
-    document.body.appendChild(link); // Required for FF
+    return rows.join("\n");
+}
 
-    link.click();
+function downloadTSV(tsvContent, filename) {
+    const blob = new Blob([tsvContent], { type: 'text/tab-separated-values;charset=utf-8;' });
+    const link = document.createElement("a");
+
+    if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 }

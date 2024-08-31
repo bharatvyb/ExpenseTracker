@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories</title>
+    <link rel="stylesheet" href="manage_categories.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Categories</h1>
+        
+        <!-- Manage Category Dropdown -->
+        <form id="category-form">
+            <input type="text" id="new-category" placeholder="Add new category">
+            <button type="submit">Add</button>
+        </form>
+
+        <table id="category-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="category-list">
+                <!-- Existing categories will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bottom Menu -->
+    <div class="bottom-menu">
+        <a href="index.html" class="menu-item">Record</a>
+        <a href="monthly.html" class="menu-item">Monthly</a>
+        <a href="total.html" class="menu-item">Total</a>
+        <a href="settings.html" class="menu-item">Settings</a>
+    </div>
+
+    <script src="manage_categories.js?v=1.0"></script>
+</body>
+</html>

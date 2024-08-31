@@ -12,25 +12,20 @@ body {
     padding: 20px;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: 80px; /* Extra padding to prevent overlap with the bottom menu */
 }
 
-h1, h2 {
+h1 {
     text-align: center;
     color: #3c3c3c;
     margin-bottom: 20px;
 }
 
-.export-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
+/* Form Styles */
 form {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 15px;
 }
 
 input, select, button {
@@ -53,6 +48,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -68,6 +64,10 @@ table th, table td {
 table th {
     background-color: #f1f1f1;
     font-weight: bold;
+}
+
+table tbody tr {
+    cursor: pointer;
 }
 
 table tbody tr:nth-child(even) {
@@ -86,7 +86,6 @@ table tbody tr:nth-child(even) {
     max-width: 600px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1000;
 }
 
 .menu-item {
@@ -99,8 +98,4 @@ table tbody tr:nth-child(even) {
 
 .menu-item:hover {
     background-color: #444;
-}
-
-.container {
-    padding-bottom: 70px; /* Added padding to avoid content being overlapped by the menu */
 }
