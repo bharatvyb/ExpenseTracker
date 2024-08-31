@@ -34,8 +34,17 @@ function storeTransaction(type, transaction) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    initializeDefaultCategories();  // Initialize categories if not already in localStorage
     loadDropdownValues();
 });
+
+function initializeDefaultCategories() {
+    let categories = JSON.parse(localStorage.getItem('categories')) || [];
+    if (categories.length === 0) {
+        categories = ['Shopping', 'Cabs', 'CC Bill', 'Hospital', 'Medicines', 'Vegetables', 'Fruits', 'Groceries', 'Milk', 'Subscription', 'School Fee', 'Office Expenses'];
+        localStorage.setItem('categories', JSON.stringify(categories));
+    }
+}
 
 function loadDropdownValues() {
     const revenueMethodSelect = document.getElementById('revenue-method');
