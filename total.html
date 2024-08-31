@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Total</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Total Expenses</h1>
+        
+        <!-- Internal Tabs for Total Page -->
+        <div class="tabs">
+            <button class="tablink" onclick="openTab(event, 'TotalRevenue')" id="defaultOpenTotal">Revenue</button>
+            <button class="tablink" onclick="openTab(event, 'TotalAll')">All</button>
+            <button class="tablink" onclick="openTab(event, 'TotalOutGo')">OutGo</button>
+        </div>
+
+        <div id="TotalRevenue" class="tabcontent">
+            <h2>Total Revenue</h2>
+            <div id="total-revenue"></div>
+        </div>
+
+        <div id="TotalAll" class="tabcontent">
+            <h2>Total All</h2>
+            <div id="total-all"></div>
+        </div>
+
+        <div id="TotalOutGo" class="tabcontent">
+            <h2>Total OutGo</h2>
+            <div id="total-outgo"></div>
+        </div>
+        
+        <!-- Bottom Menu -->
+        <div class="bottom-menu">
+            <a href="index.html" class="menu-item">Record</a>
+            <a href="monthly.html" class="menu-item">Monthly</a>
+            <a href="total.html" class="menu-item active">Total</a>
+            <a href="settings.html" class="menu-item">Settings</a>
+        </div>
+    </div>
+    <script src="total.js?v=1.0"></script>
+    <script>
+        // JavaScript for handling tab navigation
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Set the default open tab
+        document.getElementById("defaultOpenTotal").click();
+
+        // Load the data when the page loads
+        document.addEventListener('DOMContentLoaded', loadTotalData);
+    </script>
+</body>
+</html>

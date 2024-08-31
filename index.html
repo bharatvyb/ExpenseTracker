@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Record</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Expense Tracker</h1>
+        
+        <!-- Internal Tabs for Record Page -->
+        <div class="tabs">
+            <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
+            <button class="tablink" onclick="openTab(event, 'OutGo')" id="defaultOpen">OutGo</button>
+        </div>
+
+        <div id="Revenue" class="tabcontent">
+            <form id="revenue-form">
+                <input type="date" id="revenue-date" required>
+                <input type="number" id="revenue-amount" placeholder="Revenue" required>
+                <input type="text" id="revenue-memo" placeholder="Memo">
+                <input type="text" id="revenue-category" placeholder="Category">
+                <select id="revenue-method">
+                    <!-- Dynamically populated options will be here -->
+                </select>
+                <button type="submit">Add Revenue</button>
+            </form>
+        </div>
+
+        <div id="OutGo" class="tabcontent">
+            <form id="outgo-form">
+                <input type="date" id="outgo-date" required>
+                <input type="number" id="outgo-amount" placeholder="OutGo" required>
+                <input type="text" id="outgo-memo" placeholder="Memo">
+                <input type="text" id="outgo-category" placeholder="Category">
+                <select id="outgo-method">
+                    <!-- Dynamically populated options will be here -->
+                </select>
+                <button type="submit">Add OutGo</button>
+            </form>
+        </div>
+        
+        <!-- Bottom Menu -->
+        <div class="bottom-menu">
+            <a href="index.html" class="menu-item">Record</a>
+            <a href="monthly.html" class="menu-item">Monthly</a>
+            <a href="total.html" class="menu-item">Total</a>
+            <a href="settings.html" class="menu-item">Settings</a>
+        </div>
+    </div>
+    <script src="record.js?v=1.0"></script>
+    <script>
+        // JavaScript for handling tab navigation
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Open the default tab (OutGo) on page load
+        window.onload = function() {
+            document.getElementById("defaultOpen").click();
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+            }).catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+            });
+        };
+    </script>
+</body>
+</html>
