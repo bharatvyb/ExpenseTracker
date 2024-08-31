@@ -1,7 +1,28 @@
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablink" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Page loaded, initializing...");
     loadMonthlyData();
     setupModal();
+    document.getElementById('defaultOpenMonthly').click();  // Initialize the first tab
 });
 
 function loadMonthlyData() {
@@ -32,6 +53,9 @@ function loadRevenueData() {
         row.insertCell(3).textContent = revenue.category;
         row.insertCell(4).textContent = revenue.method;
 
+        // Add the > symbol to indicate editability
+        row.insertCell(5).textContent = '>';
+
         row.addEventListener('click', () => openEditModal('revenue', index));
     });
 }
@@ -56,6 +80,9 @@ function loadOutGoData() {
         row.insertCell(2).textContent = outgo.memo;
         row.insertCell(3).textContent = outgo.category;
         row.insertCell(4).textContent = outgo.method;
+
+        // Add the > symbol to indicate editability
+        row.insertCell(5).textContent = '>';
 
         row.addEventListener('click', () => openEditModal('outgo', index));
     });
@@ -85,6 +112,9 @@ function loadAllData() {
         row.insertCell(4).textContent = revenue.category;
         row.insertCell(5).textContent = revenue.method;
 
+        // Add the > symbol to indicate editability
+        row.insertCell(6).textContent = '>';
+
         row.addEventListener('click', () => openEditModal('revenue', index));
     });
 
@@ -99,6 +129,9 @@ function loadAllData() {
         row.insertCell(3).textContent = outgo.memo;
         row.insertCell(4).textContent = outgo.category;
         row.insertCell(5).textContent = outgo.method;
+
+        // Add the > symbol to indicate editability
+        row.insertCell(6).textContent = '>';
 
         row.addEventListener('click', () => openEditModal('outgo', index));
     });
@@ -126,11 +159,26 @@ function openEditModal(type, index) {
     const transactions = JSON.parse(localStorage.getItem(type)) || [];
     const transaction = transactions[index];
 
+    // Populate the modal form with the current transaction data
     document.getElementById('edit-date').value = transaction.date;
     document.getElementById('edit-amount').value = transaction.amount;
     document.getElementById('edit-memo').value = transaction.memo;
     document.getElementById('edit-category').value = transaction.category;
-    document.getElementById('edit-method').value = transaction.method;
+
+    // Populate the payment method dropdown
+    const paymentMethodDropdown = document.getElementById('edit-method');
+    const methods = JSON.parse(localStorage.getItem('methods')) || ['UPI', 'Cash', 'Credit Card'];
+    paymentMethodDropdown.innerHTML = '';  // Clear existing options
+
+    methods.forEach(method => {
+        const option = document.createElement('option');
+        option.value = method;
+        option.textContent = method;
+        if (method === transaction.method) {
+            option.selected = true;
+        }
+        paymentMethodDropdown.appendChild(option);
+    });
 
     modal.style.display = 'block';
 
@@ -139,33 +187,6 @@ function openEditModal(type, index) {
         saveEdit(type, index);
     };
 }
-
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablink" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Page loaded, initializing...");
-    loadMonthlyData();
-    setupModal();
-    document.getElementById('defaultOpenMonthly').click();  // Initialize the first tab
-});
 
 function closeModal() {
     console.log("Closing modal.");
@@ -189,8 +210,3 @@ function saveEdit(type, index) {
     closeModal();
     loadMonthlyData();  // Reload the data to reflect the changes
 }
-
-window.onload = function() {
-    console.log("Initializing default tab...");
-    document.getElementById('defaultOpenMonthly').click();
-};
