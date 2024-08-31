@@ -186,9 +186,10 @@ button:hover {
     margin-bottom: 20px;
 }
 
+/* Specific styles for the total page */
 .header .total {
     font-size: 20px;
-    color: #007bff;
+    font-weight: bold;
 }
 
 .header .total.negative {

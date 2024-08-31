@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     loadTotalData();
-    // Ensure the correct tab is opened by default
-    document.getElementById('defaultOpenTotal').click();
+    document.getElementById('defaultOpenTotal').click();  // Initialize the default tab
 });
 
 function loadTotalData() {
@@ -16,7 +15,7 @@ function loadTotalRevenueData() {
     const monthlyRevenue = calculateMonthlyTotals(revenues);
     
     revenueTable.innerHTML = '';
-    revenueTable.innerHTML += generateTotalsHtml(monthlyRevenue);
+    revenueTable.innerHTML += generateTotalsHtml(monthlyRevenue, 'Revenue', 'green');
 }
 
 function loadTotalOutGoData() {
@@ -25,7 +24,7 @@ function loadTotalOutGoData() {
     const monthlyOutGo = calculateMonthlyTotals(outgoes);
     
     outgoTable.innerHTML = '';
-    outgoTable.innerHTML += generateTotalsHtml(monthlyOutGo);
+    outgoTable.innerHTML += generateTotalsHtml(monthlyOutGo, 'OutGo', 'red');
 }
 
 function loadTotalAllData() {
@@ -38,10 +37,12 @@ function loadTotalAllData() {
     
     const monthlyAll = {};
 
+    // Calculate totals for months with either revenue or outgo
     for (let month in monthlyRevenue) {
         monthlyAll[month] = (monthlyRevenue[month] || 0) - (monthlyOutGo[month] || 0);
     }
     
+    // Ensure that months with only outgoes are included in the monthlyAll calculation
     for (let month in monthlyOutGo) {
         if (!monthlyAll[month]) {
             monthlyAll[month] = -monthlyOutGo[month];
@@ -49,7 +50,7 @@ function loadTotalAllData() {
     }
 
     allTable.innerHTML = '';
-    allTable.innerHTML += generateTotalsHtml(monthlyAll);
+    allTable.innerHTML += generateTotalsHtml(monthlyAll, 'All');
 }
 
 function calculateMonthlyTotals(transactions) {
@@ -66,23 +67,25 @@ function calculateMonthlyTotals(transactions) {
     return totals;
 }
 
-function generateTotalsHtml(monthlyData) {
+function generateTotalsHtml(monthlyData, type, color = null) {
     let html = '';
     let overallTotal = 0;
     
     for (let month in monthlyData) {
         overallTotal += monthlyData[month];
+        const totalColor = color || (monthlyData[month] < 0 ? 'red' : 'green');
         html += `<div class="header">
                     <span>${month}</span>
-                    <span class="total ${monthlyData[month] < 0 ? 'negative' : ''}">
+                    <span class="total" style="color: ${totalColor};">
                         ${monthlyData[month].toFixed(2)}
                     </span>
                 </div>`;
     }
 
+    // Set "Entire duration" to always be black
     html += `<div class="header">
                 <span>Entire duration</span>
-                <span class="total ${overallTotal < 0 ? 'negative' : ''}">
+                <span class="total" style="color: black;">
                     ${overallTotal.toFixed(2)}
                 </span>
             </div>`;
