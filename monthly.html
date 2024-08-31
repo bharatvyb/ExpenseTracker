@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker - Monthly</title>
+    <title>BharatVyb Expense Tracker - Monthly</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,13 +12,12 @@
         
         <!-- Internal Tabs for Monthly Page -->
         <div class="tabs">
-            <button class="tablink" onclick="openTab(event, 'MonthlyRevenue')" id="defaultOpenMonthly">Revenue</button>
-            <button class="tablink" onclick="openTab(event, 'MonthlyAll')">All</button>
-            <button class="tablink" onclick="openTab(event, 'MonthlyOutGo')">OutGo</button>
+            <button class="tablink" onclick="openTab(event, 'Revenue')" id="defaultOpenMonthly">Revenue</button>
+            <button class="tablink" onclick="openTab(event, 'All')">All</button>
+            <button class="tablink" onclick="openTab(event, 'OutGo')">OutGo</button>
         </div>
 
-        <div id="MonthlyRevenue" class="tabcontent">
-            <h2>Revenue Transactions</h2>
+        <div id="Revenue" class="tabcontent">
             <table id="revenue-table">
                 <thead>
                     <tr>
@@ -30,13 +29,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Table content will be filled by JavaScript -->
+                    <!-- Revenue data will be populated here -->
                 </tbody>
             </table>
         </div>
 
-        <div id="MonthlyAll" class="tabcontent">
-            <h2>All Transactions</h2>
+        <div id="All" class="tabcontent">
             <table id="all-table">
                 <thead>
                     <tr>
@@ -49,13 +47,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Table content will be filled by JavaScript -->
+                    <!-- All data will be populated here -->
                 </tbody>
             </table>
         </div>
 
-        <div id="MonthlyOutGo" class="tabcontent">
-            <h2>OutGo Transactions</h2>
+        <div id="OutGo" class="tabcontent">
             <table id="outgo-table">
                 <thead>
                     <tr>
@@ -67,41 +64,48 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Table content will be filled by JavaScript -->
+                    <!-- OutGo data will be populated here -->
                 </tbody>
             </table>
         </div>
-        
+
+        <!-- Modal for Editing Transaction -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-modal">&times;</span>
+                <h2>Edit Transaction</h2>
+                <form id="edit-form">
+                    <label for="edit-date">Date</label>
+                    <input type="date" id="edit-date" required>
+                    
+                    <label for="edit-amount">Amount</label>
+                    <input type="number" id="edit-amount" required>
+                    
+                    <label for="edit-memo">Memo</label>
+                    <input type="text" id="edit-memo">
+                    
+                    <label for="edit-category">Category</label>
+                    <input type="text" id="edit-category">
+                    
+                    <label for="edit-method">Payment Method</label>
+                    <select id="edit-method">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                    
+                    <button type="submit">Save</button>
+                    <button type="button" id="cancel-edit">Cancel</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Bottom Menu -->
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
-            <a href="monthly.html" class="menu-item">Monthly</a>
+            <a href="monthly.html" class="menu-item active">Monthly</a>
             <a href="total.html" class="menu-item">Total</a>
             <a href="settings.html" class="menu-item">Settings</a>
         </div>
     </div>
     <script src="monthly.js?v=1.0"></script>
-    <script>
-        // JavaScript for handling tab navigation
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablink");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // Set the default open tab
-        document.getElementById("defaultOpenMonthly").click();
-
-        // Load the data when the page loads
-        document.addEventListener('DOMContentLoaded', loadMonthlyData);
-    </script>
 </body>
 </html>
