@@ -9,7 +9,15 @@
 <body>
     <div class="container">
         <h1>Settings</h1>
-        
+
+        <!-- Backup Data Section -->
+        <h2>Backup Data</h2>
+        <div class="backup-section">
+            <label for="export-data">Backup Data</label>
+            <button id="export-data">Export</button>
+        </div>
+
+        <!-- Manage Method Dropdown -->
         <h2>Manage Payment Methods</h2>
         <form id="method-form">
             <input type="text" id="new-method" placeholder="Add new payment method">
@@ -29,6 +37,7 @@
             </tbody>
         </table>
 
+        <!-- Manage Category Dropdown -->
         <h2>Manage Categories</h2>
         <form id="category-form">
             <input type="text" id="new-category" placeholder="Add new category">
@@ -48,6 +57,7 @@
             </tbody>
         </table>
 
+        <!-- Bottom Menu -->
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item">Monthly</a>

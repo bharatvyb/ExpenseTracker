@@ -12,6 +12,7 @@ body {
     padding: 20px;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: 80px;  /* Add padding at the bottom to avoid content overlapping with the menu */
 }
 
 h1, h2 {
@@ -63,14 +64,6 @@ table th {
     font-weight: bold;
 }
 
-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.edit-btn {
-    margin-right: 5px;
-}
-
 .bottom-menu {
     display: flex;
     justify-content: space-around;
@@ -96,7 +89,10 @@ table tbody tr:nth-child(even) {
     background-color: #444;
 }
 
-/* Extra space at the bottom to avoid collision with the bottom menu */
-.container {
-    padding-bottom: 60px; /* Add this to ensure space between last item and bottom menu */
+.backup-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;  /* Add margin at the bottom to separate from the next section */
 }
