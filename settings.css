@@ -12,6 +12,7 @@ body {
     padding: 20px;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: 80px; /* Extra padding to prevent overlap with the bottom menu */
 }
 
 h1, h2 {
@@ -20,7 +21,7 @@ h1, h2 {
     margin-bottom: 20px;
 }
 
-.export-section {
+.export-section, .launch-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,8 +100,4 @@ table tbody tr:nth-child(even) {
 
 .menu-item:hover {
     background-color: #444;
-}
-
-.container {
-    padding-bottom: 70px; /* Added padding to avoid content being overlapped by the menu */
 }
