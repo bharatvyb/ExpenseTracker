@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker - Record</title>
+    <title>BharatVyb Expense Tracker - Record</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Link to the manifest file -->
     <link rel="manifest" href="/manifest.json">
 </head>
 <body>
@@ -19,10 +20,13 @@
 
         <div id="Revenue" class="tabcontent">
             <form id="revenue-form">
-                <input type="date" id="revenue-date" placeholder="Date" required>
+                <label for="revenue-date">Date</label>
+                <input type="date" id="revenue-date" required>
+                
                 <input type="number" id="revenue-amount" placeholder="Revenue" required>
                 <input type="text" id="revenue-memo" placeholder="Memo">
                 <input type="text" id="revenue-category" placeholder="Category">
+                <label for="revenue-method">Payment Method</label>
                 <select id="revenue-method">
                     <!-- Dynamically populated options will be here -->
                 </select>
@@ -32,10 +36,13 @@
 
         <div id="OutGo" class="tabcontent">
             <form id="outgo-form">
-                <input type="date" id="outgo-date" placeholder="Date" required>
+                <label for="outgo-date">Date</label>
+                <input type="date" id="outgo-date" required>
+                
                 <input type="number" id="outgo-amount" placeholder="OutGo" required>
                 <input type="text" id="outgo-memo" placeholder="Memo">
                 <input type="text" id="outgo-category" placeholder="Category">
+                <label for="outgo-method">Payment Method</label>
                 <select id="outgo-method">
                     <!-- Dynamically populated options will be here -->
                 </select>
@@ -53,7 +60,7 @@
     </div>
     <script src="record.js?v=1.0"></script>
     <script>
-        // JavaScript for handling tab navigation
+        // JavaScript for handling tab navigation and setting the default date
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
@@ -71,16 +78,25 @@
         // Open the default tab (OutGo) on page load
         window.onload = function() {
             document.getElementById("defaultOpen").click();
+            setDefaultDate();
+        };
+
+        // Function to set the default date to today's date
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('revenue-date').value = today;
+            document.getElementById('outgo-date').value = today;
         }
 
+        // Register the service worker for PWA functionality
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
             .then(function(registration) {
-            console.log('Service Worker registered with scope:', registration.scope);
+                console.log('Service Worker registered with scope:', registration.scope);
             }).catch(function(error) {
-            console.log('Service Worker registration failed:', error);
+                console.log('Service Worker registration failed:', error);
             });
-        };
+        }
     </script>
 </body>
 </html>
