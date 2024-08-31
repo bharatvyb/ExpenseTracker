@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker - Record</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body>
     <div class="container">
@@ -18,7 +19,7 @@
 
         <div id="Revenue" class="tabcontent">
             <form id="revenue-form">
-                <input type="date" id="revenue-date" required>
+                <input type="date" id="revenue-date" placeholder="Date" required>
                 <input type="number" id="revenue-amount" placeholder="Revenue" required>
                 <input type="text" id="revenue-memo" placeholder="Memo">
                 <input type="text" id="revenue-category" placeholder="Category">
@@ -31,7 +32,7 @@
 
         <div id="OutGo" class="tabcontent">
             <form id="outgo-form">
-                <input type="date" id="outgo-date" required>
+                <input type="date" id="outgo-date" placeholder="Date" required>
                 <input type="number" id="outgo-amount" placeholder="OutGo" required>
                 <input type="text" id="outgo-memo" placeholder="Memo">
                 <input type="text" id="outgo-category" placeholder="Category">
