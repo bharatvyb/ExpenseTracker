@@ -47,6 +47,7 @@ function loadRevenueData() {
         let row = revenueTable.insertRow();
         row.dataset.type = 'revenue';
         row.dataset.index = index;
+        row.style.color = 'green';  // Set row color to green for Revenue
         row.insertCell(0).textContent = revenue.date;
         row.insertCell(1).textContent = revenue.amount;
         row.insertCell(2).textContent = revenue.memo;
@@ -75,6 +76,7 @@ function loadOutGoData() {
         let row = outgoTable.insertRow();
         row.dataset.type = 'outgo';
         row.dataset.index = index;
+        row.style.color = 'red';  // Set row color to red for OutGo
         row.insertCell(0).textContent = outgo.date;
         row.insertCell(1).textContent = outgo.amount;
         row.insertCell(2).textContent = outgo.memo;
@@ -106,14 +108,13 @@ function loadAllData() {
         row.dataset.type = 'revenue';
         row.dataset.index = index;
         row.insertCell(0).textContent = revenue.date;
-        row.insertCell(1).textContent = 'Revenue';
-        row.insertCell(2).textContent = revenue.amount;
-        row.insertCell(3).textContent = revenue.memo;
-        row.insertCell(4).textContent = revenue.category;
-        row.insertCell(5).textContent = revenue.method;
+        row.insertCell(1).textContent = revenue.amount;
+        row.insertCell(2).textContent = revenue.memo;
+        row.insertCell(3).textContent = revenue.category;
+        row.insertCell(4).textContent = revenue.method;
 
         // Add the > symbol to indicate editability
-        row.insertCell(6).textContent = '>';
+        row.insertCell(5).textContent = '>';
 
         row.addEventListener('click', () => openEditModal('revenue', index));
     });
@@ -124,14 +125,13 @@ function loadAllData() {
         row.dataset.type = 'outgo';
         row.dataset.index = index;
         row.insertCell(0).textContent = outgo.date;
-        row.insertCell(1).textContent = 'OutGo';
-        row.insertCell(2).textContent = outgo.amount;
-        row.insertCell(3).textContent = outgo.memo;
-        row.insertCell(4).textContent = outgo.category;
-        row.insertCell(5).textContent = outgo.method;
+        row.insertCell(1).textContent = outgo.amount;
+        row.insertCell(2).textContent = outgo.memo;
+        row.insertCell(3).textContent = outgo.category;
+        row.insertCell(4).textContent = outgo.method;
 
         // Add the > symbol to indicate editability
-        row.insertCell(6).textContent = '>';
+        row.insertCell(5).textContent = '>';
 
         row.addEventListener('click', () => openEditModal('outgo', index));
     });

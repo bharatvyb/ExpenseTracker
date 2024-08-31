@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', loadTotalData);
+document.addEventListener('DOMContentLoaded', function() {
+    // Load all the data
+    loadTotalData();
+    // Simulate a click on the OutGo tab to make it the default tab
+    document.getElementById('defaultOpenOutGo').click();
+});
 
 function loadTotalData() {
     loadTotalRevenueData();
@@ -33,8 +38,17 @@ function loadTotalAllData() {
     const monthlyOutGo = calculateMonthlyTotals(outgoes);
     
     const monthlyAll = {};
+
+    // Calculate totals for months with either revenue or outgo
     for (let month in monthlyRevenue) {
         monthlyAll[month] = (monthlyRevenue[month] || 0) - (monthlyOutGo[month] || 0);
+    }
+    
+    // Ensure that months with only outgoes are included in the monthlyAll calculation
+    for (let month in monthlyOutGo) {
+        if (!monthlyAll[month]) {
+            monthlyAll[month] = -monthlyOutGo[month];
+        }
     }
 
     allTable.innerHTML = '';
@@ -63,7 +77,9 @@ function generateTotalsHtml(monthlyData, type) {
         overallTotal += monthlyData[month];
         html += `<div class="header">
                     <span>${month}</span>
-                    <span class="total">${monthlyData[month].toFixed(2)}</span>
+                    <span class="total ${monthlyData[month] < 0 ? 'negative' : ''}">
+                        ${monthlyData[month].toFixed(2)}
+                    </span>
                 </div>`;
     }
 

@@ -12,9 +12,9 @@
         
         <!-- Internal Tabs for Total Page -->
         <div class="tabs">
-            <button class="tablink" onclick="openTab(event, 'TotalRevenue')" id="defaultOpenTotal">Revenue</button>
+            <button class="tablink" onclick="openTab(event, 'TotalRevenue')">Revenue</button>
             <button class="tablink" onclick="openTab(event, 'TotalAll')">All</button>
-            <button class="tablink" onclick="openTab(event, 'TotalOutGo')">OutGo</button>
+            <button class="tablink" onclick="openTab(event, 'TotalOutGo')" id="defaultOpenTotal">OutGo</button>
         </div>
 
         <div id="TotalRevenue" class="tabcontent">
@@ -57,7 +57,7 @@
             evt.currentTarget.className += " active";
         }
 
-        // Set the default open tab
+        // Set the default open tab to OutGo
         document.getElementById("defaultOpenTotal").click();
 
         // Load the data when the page loads
