@@ -9,22 +9,32 @@ body {
 .container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
+    padding-top: 20px;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding-bottom: 100px; /* Ensure there's space above the bottom menu */
 }
 
 h1 {
     text-align: center;
     color: #3c3c3c;
     margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    z-index: 100;
 }
 
 /* Tabs Styling */
 .tabs {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 0;
+    position: sticky;
+    top: 60px;
+    background: #ffffff;
+    z-index: 100;
 }
 
 .tablink {
@@ -47,6 +57,8 @@ h1 {
     display: none;
     padding: 20px;
     border-top: 1px solid #ddd;
+    overflow-y: auto;
+    max-height: calc(100vh - 180px); /* Adjusted height to allow scrolling */
 }
 
 .tabcontent.active {
@@ -80,30 +92,18 @@ table tbody tr:nth-child(even) {
 }
 
 /* Button Styles */
-.edit-btn, .delete-btn {
+.edit-btn {
     padding: 5px 10px;
     font-size: 12px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
-}
-
-.edit-btn {
     background-color: #007bff;
-    color: #ffffff;
-}
-
-.delete-btn {
-    background-color: #dc3545;
     color: #ffffff;
 }
 
 .edit-btn:hover {
     background-color: #0056b3;
-}
-
-.delete-btn:hover {
-    background-color: #c82333;
 }
 
 /* Modal Styles */
@@ -182,6 +182,7 @@ button:hover {
     max-width: 600px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 100;
 }
 
 .menu-item {

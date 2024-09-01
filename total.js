@@ -1,7 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("Page loaded, initializing...");
+    adjustTabContentHeight(); // Adjust the height on load
+    window.addEventListener('resize', adjustTabContentHeight); // Adjust the height on window resize
     loadTotalData();
     document.getElementById('defaultOpenTotal').click();  // Initialize the default tab
 });
+
+function adjustTabContentHeight() {
+    var tabContentElements = document.getElementsByClassName('tabcontent');
+    for (var i = 0; i < tabContentElements.length; i++) {
+        tabContentElements[i].style.maxHeight = `calc(100vh - ${document.querySelector('.tabs').offsetHeight + document.querySelector('.bottom-menu').offsetHeight + 120}px)`;
+    }
+}
 
 function loadTotalData() {
     loadTotalRevenueData();

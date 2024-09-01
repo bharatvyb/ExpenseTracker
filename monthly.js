@@ -20,10 +20,19 @@ function openTab(evt, tabName) {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Page loaded, initializing...");
+    adjustTabContentHeight(); // Adjust the height on load
+    window.addEventListener('resize', adjustTabContentHeight); // Adjust the height on window resize
     loadMonthlyData();
     setupModal();
     document.getElementById('defaultOpenMonthly').click();  // Initialize the first tab
 });
+
+function adjustTabContentHeight() {
+    var tabContentElements = document.getElementsByClassName('tabcontent');
+    for (var i = 0; i < tabContentElements.length; i++) {
+        tabContentElements[i].style.maxHeight = `calc(100vh - ${document.querySelector('.tabs').offsetHeight + document.querySelector('.bottom-menu').offsetHeight + 120}px)`;
+    }
+}
 
 function loadMonthlyData() {
     console.log("Loading monthly data...");
