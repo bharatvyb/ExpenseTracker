@@ -179,3 +179,13 @@ select option {
     word-wrap: break-word; /* Ensure the file name wraps if too long */
     display: none; /* Initially hidden */
 }
+
+/* Add this to the existing CSS file */
+button.delete-btn {
+    background-color: #dc3545; /* Bootstrap-like red color */
+    color: #ffffff;
+}
+
+button.delete-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+}

@@ -67,6 +67,16 @@ h1 {
     background-color: #0056b3;
 }
 
+/* Updated delete button styles */
+button.delete-btn {
+    background-color: #dc3545; /* Bootstrap-like red color */
+    color: #ffffff;
+}
+
+button.delete-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
 .revenue-row {
     color: green;
 }
