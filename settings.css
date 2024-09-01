@@ -1,24 +1,8 @@
-/* General Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
+@import url('common.css');
 
+/* Page-specific Styles */
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding-bottom: 80px; /* Extra padding to prevent overlap with the bottom menu */
-}
-
-h1, h2 {
-    text-align: center;
-    color: #3c3c3c;
-    margin-bottom: 20px;
 }
 
 .export-section, .launch-section {
@@ -26,51 +10,4 @@ h1, h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-}
-
-input, select, button {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-}
-
-button {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* Bottom Menu */
-.bottom-menu {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    background-color: #333;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 600px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-}
-
-.menu-item {
-    flex: 1;
-    color: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px 0;
-}
-
-.menu-item:hover {
-    background-color: #444;
 }

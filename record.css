@@ -1,23 +1,8 @@
-/* General Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
+@import url('common.css');
 
+/* Page-specific Styles */
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    text-align: center;
-    color: #3c3c3c;
-    margin-bottom: 20px;
+    padding-bottom: 100px; /* Prevent overlap with the bottom menu */
 }
 
 /* Tabs Styling */
@@ -36,71 +21,12 @@ h1 {
     text-align: center;
     font-weight: bold;
     color: #555;
+    border-radius: 5px 5px 0 0;  /* Rounded top corners to resemble tabs */
+    border-bottom: 2px solid transparent;  /* Default state has no bottom border */
 }
 
 .tablink.active, .tablink:hover {
     background: #dcdcdc;
     color: #000;
-}
-
-.tabcontent {
-    display: none;
-    padding: 20px;
-    border-top: 1px solid #ddd;
-}
-
-.tabcontent.active {
-    display: block;
-}
-
-/* Form Styles */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-input, select, button {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-}
-
-button {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.bottom-menu {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    background-color: #333;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 600px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.menu-item {
-    flex: 1;
-    color: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px 0;
-}
-
-.menu-item:hover {
-    background-color: #444;
+    border-bottom: 2px solid #007bff;  /* Active tab has a bottom border */
 }
