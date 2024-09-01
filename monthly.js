@@ -18,8 +18,6 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
-// Existing code...
-
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Page loaded, initializing...");
     loadMonthlyData();
@@ -56,22 +54,15 @@ function loadRevenueData() {
         row.insertCell(3).textContent = revenue.category;
         row.insertCell(4).textContent = revenue.method;
 
-        // Add buttons for Edit and Delete
+        // Add button for Edit only
         let editCell = row.insertCell(5);
-        let deleteCell = row.insertCell(6);
         
         let editBtn = document.createElement('button');
         editBtn.textContent = 'E';
         editBtn.className = 'edit-btn';
         editBtn.addEventListener('click', () => openEditModal('revenue', index));
         
-        let deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'D';
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.addEventListener('click', () => deleteTransaction('revenue', index));
-        
         editCell.appendChild(editBtn);
-        deleteCell.appendChild(deleteBtn);
     });
 }
 
@@ -97,22 +88,15 @@ function loadOutGoData() {
         row.insertCell(3).textContent = outgo.category;
         row.insertCell(4).textContent = outgo.method;
 
-        // Add buttons for Edit and Delete
+        // Add button for Edit only
         let editCell = row.insertCell(5);
-        let deleteCell = row.insertCell(6);
         
         let editBtn = document.createElement('button');
         editBtn.textContent = 'E';
         editBtn.className = 'edit-btn';
         editBtn.addEventListener('click', () => openEditModal('outgo', index));
         
-        let deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'D';
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.addEventListener('click', () => deleteTransaction('outgo', index));
-        
         editCell.appendChild(editBtn);
-        deleteCell.appendChild(deleteBtn);
     });
 }
 
@@ -139,22 +123,15 @@ function loadAllData() {
         row.insertCell(3).textContent = revenue.category;
         row.insertCell(4).textContent = revenue.method;
 
-        // Add buttons for Edit and Delete
+        // Add button for Edit only
         let editCell = row.insertCell(5);
-        let deleteCell = row.insertCell(6);
         
         let editBtn = document.createElement('button');
         editBtn.textContent = 'E';
         editBtn.className = 'edit-btn';
         editBtn.addEventListener('click', () => openEditModal('revenue', index));
         
-        let deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'D';
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.addEventListener('click', () => deleteTransaction('revenue', index));
-        
         editCell.appendChild(editBtn);
-        deleteCell.appendChild(deleteBtn);
     });
 
     outgoes.forEach((outgo, index) => {
@@ -168,22 +145,15 @@ function loadAllData() {
         row.insertCell(3).textContent = outgo.category;
         row.insertCell(4).textContent = outgo.method;
 
-        // Add buttons for Edit and Delete
+        // Add button for Edit only
         let editCell = row.insertCell(5);
-        let deleteCell = row.insertCell(6);
         
         let editBtn = document.createElement('button');
         editBtn.textContent = 'E';
         editBtn.className = 'edit-btn';
         editBtn.addEventListener('click', () => openEditModal('outgo', index));
         
-        let deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'D';
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.addEventListener('click', () => deleteTransaction('outgo', index));
-        
         editCell.appendChild(editBtn);
-        deleteCell.appendChild(deleteBtn);
     });
 }
 
@@ -191,9 +161,17 @@ function setupModal() {
     const modal = document.getElementById('edit-modal');
     const closeModalBtn = document.getElementById('close-modal');
     const cancelEditBtn = document.getElementById('cancel-edit');
+    const deleteTransactionBtn = document.getElementById('delete-transaction');  // Added delete button
 
     closeModalBtn.onclick = closeModal;
     cancelEditBtn.onclick = closeModal;
+
+    deleteTransactionBtn.onclick = function() {
+        const transactionType = modal.getAttribute('data-type');
+        const transactionIndex = modal.getAttribute('data-index');
+        deleteTransaction(transactionType, transactionIndex);
+        closeModal();
+    }
 
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -208,6 +186,9 @@ function openEditModal(type, index) {
     const editForm = document.getElementById('edit-form');
     const transactions = JSON.parse(localStorage.getItem(type)) || [];
     const transaction = transactions[index];
+
+    modal.setAttribute('data-type', type);  // Store type in modal
+    modal.setAttribute('data-index', index);  // Store index in modal
 
     // Populate the modal form with the current transaction data
     document.getElementById('edit-date').value = transaction.date;
