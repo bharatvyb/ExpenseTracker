@@ -67,6 +67,16 @@ h1 {
     background-color: #0056b3;
 }
 
+/* Updated save button styles */
+button.save-btn {
+    background-color: #28a745; /* Bootstrap-like green color */
+    color: #ffffff;
+}
+
+button.save-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
 /* Updated delete button styles */
 button.delete-btn {
     background-color: #dc3545; /* Bootstrap-like red color */
