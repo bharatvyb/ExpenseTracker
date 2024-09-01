@@ -32,6 +32,9 @@
     font-weight: bold;
     color: #555;
     transition: all 0.3s ease;
+    width: 120px; /* Set a fixed width */
+    display: inline-block;
+    text-align: center;
 }
 
 .tablink.active, .toggle-label:hover .tablink {
