@@ -34,9 +34,18 @@ function storeTransaction(type, transaction) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    initializeDefaultMethods();      // Initialize methods if not already in localStorage
     initializeDefaultCategories();  // Initialize categories if not already in localStorage
     loadDropdownValues();
 });
+
+function initializeDefaultMethods() {
+    let methods = JSON.parse(localStorage.getItem('methods')) || [];
+    if (methods.length === 0) {
+        methods = ['UPI', 'Credit Card', 'Cash'];
+        localStorage.setItem('methods', JSON.stringify(methods));
+    }
+}
 
 function initializeDefaultCategories() {
     let categories = JSON.parse(localStorage.getItem('categories')) || [];
