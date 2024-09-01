@@ -94,6 +94,14 @@
                         <!-- Options will be populated dynamically -->
                     </select>
                     
+                    <label for="edit-type">Type</label>
+                    <div>
+                        <input type="radio" id="edit-revenue" name="edit-type" value="Revenue">
+                        <label for="edit-revenue">Revenue</label>
+                        <input type="radio" id="edit-outgo" name="edit-type" value="OutGo">
+                        <label for="edit-outgo">OutGo</label>
+                    </div>
+                    
                     <button type="submit">Save</button>
                     <button type="button" id="delete-transaction">Delete</button> <!-- Moved delete button here -->
                     <button type="button" id="cancel-edit">Cancel</button>

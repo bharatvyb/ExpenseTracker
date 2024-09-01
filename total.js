@@ -14,36 +14,24 @@ function adjustTabContentHeight() {
 }
 
 function loadTotalData() {
-    loadTotalRevenueData();
-    loadTotalOutGoData();
-    loadTotalAllData();
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    loadTotalDataForType(transactions, 'revenue');
+    loadTotalDataForType(transactions, 'outgo');
+    loadTotalAllData(transactions);
 }
 
-function loadTotalRevenueData() {
-    const revenueTable = document.getElementById('total-revenue');
-    const revenues = JSON.parse(localStorage.getItem('revenue')) || [];
-    const monthlyRevenue = calculateMonthlyTotals(revenues);
+function loadTotalDataForType(transactions, type) {
+    const table = document.getElementById(type === 'revenue' ? 'total-revenue' : 'total-outgo');
+    const monthlyTotals = calculateMonthlyTotals(transactions, type);
     
-    revenueTable.innerHTML = '';
-    revenueTable.innerHTML += generateTotalsHtml(monthlyRevenue, 'Revenue', 'green');
+    table.innerHTML = '';
+    table.innerHTML += generateTotalsHtml(monthlyTotals, type, type === 'revenue' ? 'green' : 'red');
 }
 
-function loadTotalOutGoData() {
-    const outgoTable = document.getElementById('total-outgo');
-    const outgoes = JSON.parse(localStorage.getItem('outgo')) || [];
-    const monthlyOutGo = calculateMonthlyTotals(outgoes);
-    
-    outgoTable.innerHTML = '';
-    outgoTable.innerHTML += generateTotalsHtml(monthlyOutGo, 'OutGo', 'red');
-}
-
-function loadTotalAllData() {
+function loadTotalAllData(transactions) {
     const allTable = document.getElementById('total-all');
-    const revenues = JSON.parse(localStorage.getItem('revenue')) || [];
-    const outgoes = JSON.parse(localStorage.getItem('outgo')) || [];
-
-    const monthlyRevenue = calculateMonthlyTotals(revenues);
-    const monthlyOutGo = calculateMonthlyTotals(outgoes);
+    const monthlyRevenue = calculateMonthlyTotals(transactions, 'revenue');
+    const monthlyOutGo = calculateMonthlyTotals(transactions, 'outgo');
     
     const monthlyAll = {};
 
@@ -63,15 +51,17 @@ function loadTotalAllData() {
     allTable.innerHTML += generateTotalsHtml(monthlyAll, 'All');
 }
 
-function calculateMonthlyTotals(transactions) {
+function calculateMonthlyTotals(transactions, type) {
     const totals = {};
 
     transactions.forEach(transaction => {
-        const month = transaction.date.substring(0, 7);  // Extract YYYY-MM format
-        if (!totals[month]) {
-            totals[month] = 0;
+        if (transaction.type === type) {
+            const month = transaction.date.substring(0, 7);  // Extract YYYY-MM format
+            if (!totals[month]) {
+                totals[month] = 0;
+            }
+            totals[month] += transaction.amount;
         }
-        totals[month] += transaction.amount;
     });
 
     return totals;

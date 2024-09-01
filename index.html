@@ -12,45 +12,32 @@
         <h1>BharatVyb Expense Tracker</h1>
         
         <div class="tabs">
-            <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
-            <button class="tablink" onclick="openTab(event, 'OutGo')" id="defaultOpen">OutGo</button>
+            <label>
+                <input type="radio" name="transaction-type" value="revenue" checked>
+                <span class="tablink">Revenue</span>
+            </label>
+            <label>
+                <input type="radio" name="transaction-type" value="outgo">
+                <span class="tablink">OutGo</span>
+            </label>
         </div>
 
-        <div id="Revenue" class="tabcontent">
-            <form id="revenue-form">
-                <label for="revenue-date">Date</label>
-                <input type="date" id="revenue-date" required>
+        <div id="Transaction" class="tabcontent active">
+            <form id="transaction-form">
+                <label for="transaction-date">Date</label>
+                <input type="date" id="transaction-date" required>
                 
-                <input type="number" id="revenue-amount" placeholder="Revenue" required>
-                <input type="text" id="revenue-memo" placeholder="Memo">
-                <label for="revenue-category">Category</label>
-                <select id="revenue-category">
+                <input type="number" id="transaction-amount" placeholder="Amount" required>
+                <input type="text" id="transaction-memo" placeholder="Memo">
+                <label for="transaction-category">Category</label>
+                <select id="transaction-category">
                     <!-- Dynamically populated options will be here -->
                 </select>
-                <label for="revenue-method">Payment Method</label>
-                <select id="revenue-method">
+                <label for="transaction-method">Payment Method</label>
+                <select id="transaction-method">
                     <!-- Dynamically populated options will be here -->
                 </select>
-                <button type="submit">Add Revenue</button>
-            </form>
-        </div>
-
-        <div id="OutGo" class="tabcontent">
-            <form id="outgo-form">
-                <label for="outgo-date">Date</label>
-                <input type="date" id="outgo-date" required>
-                
-                <input type="number" id="outgo-amount" placeholder="OutGo" required>
-                <input type="text" id="outgo-memo" placeholder="Memo">
-                <label for="outgo-category">Category</label>
-                <select id="outgo-category">
-                    <!-- Dynamically populated options will be here -->
-                </select>
-                <label for="outgo-method">Payment Method</label>
-                <select id="outgo-method">
-                    <!-- Dynamically populated options will be here -->
-                </select>
-                <button type="submit">Add OutGo</button>
+                <button type="submit">Add Transaction</button>
             </form>
         </div>
         
@@ -63,29 +50,28 @@
     </div>
     <script src="record.js"></script>
     <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablink");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
         window.onload = function() {
-            document.getElementById("defaultOpen").click();
             setDefaultDate();
+            setupTransactionTypeToggle();
         };
 
         function setDefaultDate() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('revenue-date').value = today;
-            document.getElementById('outgo-date').value = today;
+            document.getElementById('transaction-date').value = today;
+        }
+
+        function setupTransactionTypeToggle() {
+            const radios = document.querySelectorAll('input[name="transaction-type"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.querySelectorAll('.tablink').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    this.nextElementSibling.classList.add('active');
+                });
+            });
+            // Trigger the change event for the initially checked radio button
+            radios[0].dispatchEvent(new Event('change'));
         }
 
         if ('serviceWorker' in navigator) {

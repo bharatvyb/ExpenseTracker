@@ -1,10 +1,9 @@
 @import url('common.css');
 
-/* Page-specific Styles */
 .container {
     padding-top: 20px;
     position: relative;
-    padding-bottom: 100px; /* Ensure there's space above the bottom menu */
+    padding-bottom: 100px;
 }
 
 h1 {
@@ -14,7 +13,6 @@ h1 {
     z-index: 100;
 }
 
-/* Tabs Styling */
 .tabs {
     display: flex;
     justify-content: space-between;
@@ -33,14 +31,14 @@ h1 {
     text-align: center;
     font-weight: bold;
     color: #555;
-    border-radius: 5px 5px 0 0;  /* Rounded top corners to resemble tabs */
-    border-bottom: 2px solid transparent;  /* Default state has no bottom border */
+    border-radius: 5px 5px 0 0;
+    border-bottom: 2px solid transparent;
 }
 
 .tablink.active, .tablink:hover {
     background: #dcdcdc;
     color: #000;
-    border-bottom: 2px solid #007bff;  /* Active tab has a bottom border */
+    border-bottom: 2px solid #007bff;
 }
 
 .tabcontent {
@@ -48,14 +46,13 @@ h1 {
     padding: 20px;
     border-top: 1px solid #ddd;
     overflow-y: auto;
-    max-height: calc(100vh - 180px); /* Adjusted height to allow scrolling */
+    max-height: calc(100vh - 180px);
 }
 
 .tabcontent.active {
     display: block;
 }
 
-/* Button Styles */
 .edit-btn {
     padding: 5px 10px;
     font-size: 12px;
@@ -70,7 +67,6 @@ h1 {
     background-color: #0056b3;
 }
 
-/* Color Coding */
 .revenue-row {
     color: green;
 }

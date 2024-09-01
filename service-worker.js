@@ -5,6 +5,7 @@ self.addEventListener('install', function(event) {
       return cache.addAll([
         '/',
         'index.html',
+        'common.css', // Add common.css to the cache
         'record.css',
         'record.js',
         'settings.css',

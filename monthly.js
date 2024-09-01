@@ -18,13 +18,13 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log("Page loaded, initializing...");
-    adjustTabContentHeight(); // Adjust the height on load
-    window.addEventListener('resize', adjustTabContentHeight); // Adjust the height on window resize
+    adjustTabContentHeight();
+    window.addEventListener('resize', adjustTabContentHeight);
     loadMonthlyData();
     setupModal();
-    document.getElementById('defaultOpenMonthly').click();  // Initialize the first tab
+    document.getElementById('defaultOpenMonthly').click();
 });
 
 function adjustTabContentHeight() {
@@ -36,133 +36,42 @@ function adjustTabContentHeight() {
 
 function loadMonthlyData() {
     console.log("Loading monthly data...");
-    loadRevenueData();
-    loadOutGoData();
-    loadAllData();
-}
-
-function loadRevenueData() {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const revenueTable = document.getElementById('revenue-table').getElementsByTagName('tbody')[0];
-    const revenues = JSON.parse(localStorage.getItem('revenue')) || [];
-    console.log("Revenue data loaded:", revenues);
+    const outgoTable = document.getElementById('outgo-table').getElementsByTagName('tbody')[0];
+    const allTable = document.getElementById('all-table').getElementsByTagName('tbody')[0];
 
     revenueTable.innerHTML = '';
-
-    if (revenues.length === 0) {
-        console.log("No revenue data found.");
-    }
-
-    revenues.forEach((revenue, index) => {
-        let row = revenueTable.insertRow();
-        row.dataset.type = 'revenue';
-        row.dataset.index = index;
-        row.style.color = 'green';  // Set row color to green for Revenue
-        row.insertCell(0).textContent = revenue.date;
-        row.insertCell(1).textContent = revenue.amount;
-        row.insertCell(2).textContent = revenue.memo;
-        row.insertCell(3).textContent = revenue.category;
-        row.insertCell(4).textContent = revenue.method;
-
-        // Add button for Edit only
-        let editCell = row.insertCell(5);
-        
-        let editBtn = document.createElement('button');
-        editBtn.textContent = 'E';
-        editBtn.className = 'edit-btn';
-        editBtn.addEventListener('click', () => openEditModal('revenue', index));
-        
-        editCell.appendChild(editBtn);
-    });
-}
-
-function loadOutGoData() {
-    const outgoTable = document.getElementById('outgo-table').getElementsByTagName('tbody')[0];
-    const outgoes = JSON.parse(localStorage.getItem('outgo')) || [];
-    console.log("OutGo data loaded:", outgoes);
-
     outgoTable.innerHTML = '';
-
-    if (outgoes.length === 0) {
-        console.log("No OutGo data found.");
-    }
-
-    outgoes.forEach((outgo, index) => {
-        let row = outgoTable.insertRow();
-        row.dataset.type = 'outgo';
-        row.dataset.index = index;
-        row.style.color = 'red';  // Set row color to red for OutGo
-        row.insertCell(0).textContent = outgo.date;
-        row.insertCell(1).textContent = outgo.amount;
-        row.insertCell(2).textContent = outgo.memo;
-        row.insertCell(3).textContent = outgo.category;
-        row.insertCell(4).textContent = outgo.method;
-
-        // Add button for Edit only
-        let editCell = row.insertCell(5);
-        
-        let editBtn = document.createElement('button');
-        editBtn.textContent = 'E';
-        editBtn.className = 'edit-btn';
-        editBtn.addEventListener('click', () => openEditModal('outgo', index));
-        
-        editCell.appendChild(editBtn);
-    });
-}
-
-function loadAllData() {
-    const allTable = document.getElementById('all-table').getElementsByTagName('tbody')[0];
-    const revenues = JSON.parse(localStorage.getItem('revenue')) || [];
-    const outgoes = JSON.parse(localStorage.getItem('outgo')) || [];
-    console.log("All data loaded. Revenues:", revenues, "OutGoes:", outgoes);
-
     allTable.innerHTML = '';
 
-    if (revenues.length === 0 && outgoes.length === 0) {
-        console.log("No data found for All tab.");
-    }
-
-    revenues.forEach((revenue, index) => {
-        let row = allTable.insertRow();
-        row.style.color = 'green';
-        row.dataset.type = 'revenue';
+    transactions.forEach((transaction, index) => {
+        let row = document.createElement('tr');
         row.dataset.index = index;
-        row.insertCell(0).textContent = revenue.date;
-        row.insertCell(1).textContent = revenue.amount;
-        row.insertCell(2).textContent = revenue.memo;
-        row.insertCell(3).textContent = revenue.category;
-        row.insertCell(4).textContent = revenue.method;
+        row.style.color = transaction.type === 'revenue' ? 'green' : 'red';
 
-        // Add button for Edit only
+        row.insertCell(0).textContent = transaction.date;
+        row.insertCell(1).textContent = transaction.amount;
+        row.insertCell(2).textContent = transaction.memo;
+        row.insertCell(3).textContent = transaction.category;
+        row.insertCell(4).textContent = transaction.method;
+
         let editCell = row.insertCell(5);
-        
         let editBtn = document.createElement('button');
         editBtn.textContent = 'E';
         editBtn.className = 'edit-btn';
-        editBtn.addEventListener('click', () => openEditModal('revenue', index));
-        
+        editBtn.addEventListener('click', () => openEditModal(index));
         editCell.appendChild(editBtn);
-    });
 
-    outgoes.forEach((outgo, index) => {
-        let row = allTable.insertRow();
-        row.style.color = 'red';
-        row.dataset.type = 'outgo';
-        row.dataset.index = index;
-        row.insertCell(0).textContent = outgo.date;
-        row.insertCell(1).textContent = outgo.amount;
-        row.insertCell(2).textContent = outgo.memo;
-        row.insertCell(3).textContent = outgo.category;
-        row.insertCell(4).textContent = outgo.method;
+        if (transaction.type === 'revenue') {
+            revenueTable.appendChild(row);
+        } else if (transaction.type === 'outgo') {
+            outgoTable.appendChild(row);
+        }
 
-        // Add button for Edit only
-        let editCell = row.insertCell(5);
-        
-        let editBtn = document.createElement('button');
-        editBtn.textContent = 'E';
-        editBtn.className = 'edit-btn';
-        editBtn.addEventListener('click', () => openEditModal('outgo', index));
-        
-        editCell.appendChild(editBtn);
+        let allRow = row.cloneNode(true);
+        allRow.querySelector('.edit-btn').addEventListener('click', () => openEditModal(index));
+        allTable.appendChild(allRow);
     });
 }
 
@@ -170,45 +79,41 @@ function setupModal() {
     const modal = document.getElementById('edit-modal');
     const closeModalBtn = document.getElementById('close-modal');
     const cancelEditBtn = document.getElementById('cancel-edit');
-    const deleteTransactionBtn = document.getElementById('delete-transaction');  // Added delete button
+    const deleteTransactionBtn = document.getElementById('delete-transaction');
 
     closeModalBtn.onclick = closeModal;
     cancelEditBtn.onclick = closeModal;
 
-    deleteTransactionBtn.onclick = function() {
-        const transactionType = modal.getAttribute('data-type');
+    deleteTransactionBtn.onclick = function () {
         const transactionIndex = modal.getAttribute('data-index');
-        deleteTransaction(transactionType, transactionIndex);
+        deleteTransaction(transactionIndex);
         closeModal();
-    }
+    };
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             closeModal();
         }
-    }
+    };
 }
 
-function openEditModal(type, index) {
-    console.log(`Opening modal for type: ${type}, index: ${index}`);
+function openEditModal(index) {
+    console.log(`Opening modal for index: ${index}`);
     const modal = document.getElementById('edit-modal');
     const editForm = document.getElementById('edit-form');
-    const transactions = JSON.parse(localStorage.getItem(type)) || [];
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const transaction = transactions[index];
 
-    modal.setAttribute('data-type', type);  // Store type in modal
-    modal.setAttribute('data-index', index);  // Store index in modal
+    modal.setAttribute('data-index', index);
 
-    // Populate the modal form with the current transaction data
     document.getElementById('edit-date').value = transaction.date;
     document.getElementById('edit-amount').value = transaction.amount;
     document.getElementById('edit-memo').value = transaction.memo;
     document.getElementById('edit-category').value = transaction.category;
 
-    // Populate the payment method dropdown
     const paymentMethodDropdown = document.getElementById('edit-method');
     const methods = JSON.parse(localStorage.getItem('methods')) || ['UPI', 'Cash', 'Credit Card'];
-    paymentMethodDropdown.innerHTML = '';  // Clear existing options
+    paymentMethodDropdown.innerHTML = '';
 
     methods.forEach(method => {
         const option = document.createElement('option');
@@ -220,10 +125,9 @@ function openEditModal(type, index) {
         paymentMethodDropdown.appendChild(option);
     });
 
-    // Populate the category dropdown
     const categoryDropdown = document.getElementById('edit-category');
-    const categories = JSON.parse(localStorage.getItem('categories')) || ['Shopping', 'Cabs', 'CC Bill', 'Hospital', 'Medicines', 'Vegetables', 'Fruits', 'Groceries', 'Milk', 'Subscription', 'School Fee', 'Office Expenses'];
-    categoryDropdown.innerHTML = '';  // Clear existing options
+    const categories = JSON.parse(localStorage.getItem('categories')) || [];
+    categoryDropdown.innerHTML = '';
 
     categories.forEach(category => {
         const option = document.createElement('option');
@@ -235,11 +139,20 @@ function openEditModal(type, index) {
         categoryDropdown.appendChild(option);
     });
 
+    // Set the transaction type radio button
+    const typeRadioButtons = document.getElementsByName('edit-type');
+    for (let i = 0; i < typeRadioButtons.length; i++) {
+        if (typeRadioButtons[i].value.toLowerCase() === transaction.type) {
+            typeRadioButtons[i].checked = true;
+            break;
+        }
+    }
+
     modal.style.display = 'block';
 
-    editForm.onsubmit = function(e) {
+    editForm.onsubmit = function (e) {
         e.preventDefault();
-        saveEdit(type, index);
+        saveEdit(index);
     };
 }
 
@@ -248,28 +161,29 @@ function closeModal() {
     document.getElementById('edit-modal').style.display = 'none';
 }
 
-function saveEdit(type, index) {
-    console.log(`Saving edit for type: ${type}, index: ${index}`);
-    const transactions = JSON.parse(localStorage.getItem(type)) || [];
+function saveEdit(index) {
+    console.log(`Saving edit for index: ${index}`);
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const updatedTransaction = {
         date: document.getElementById('edit-date').value,
         amount: parseFloat(document.getElementById('edit-amount').value),
         memo: document.getElementById('edit-memo').value,
         category: document.getElementById('edit-category').value,
-        method: document.getElementById('edit-method').value
+        method: document.getElementById('edit-method').value,
+        type: document.querySelector('input[name="edit-type"]:checked').value.toLowerCase() // Get the selected type and convert it to lowercase
     };
 
     transactions[index] = updatedTransaction;
-    localStorage.setItem(type, JSON.stringify(transactions));
+    localStorage.setItem('transactions', JSON.stringify(transactions));
 
     closeModal();
-    loadMonthlyData();  // Reload the data to reflect the changes
+    loadMonthlyData();
 }
 
-function deleteTransaction(type, index) {
-    console.log(`Deleting transaction for type: ${type}, index: ${index}`);
-    let transactions = JSON.parse(localStorage.getItem(type)) || [];
+function deleteTransaction(index) {
+    console.log(`Deleting transaction for index: ${index}`);
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     transactions.splice(index, 1);
-    localStorage.setItem(type, JSON.stringify(transactions));
-    loadMonthlyData();  // Reload the data to reflect the changes
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+    loadMonthlyData();
 }
