@@ -99,5 +99,5 @@ function setupTransactionTypeToggle() {
             this.nextElementSibling.classList.add('active');
         });
     });
-    radios[0].dispatchEvent(new Event('change'));
+    radios[1].dispatchEvent(new Event('change')); // Set OutGo as the default
 }

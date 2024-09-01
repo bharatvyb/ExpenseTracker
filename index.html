@@ -13,11 +13,11 @@
         
         <div class="tabs">
             <label class="toggle-label">
-                <input type="radio" name="transaction-type" value="revenue" checked>
+                <input type="radio" name="transaction-type" value="revenue">
                 <span class="tablink">Revenue</span>
             </label>
             <label class="toggle-label">
-                <input type="radio" name="transaction-type" value="outgo">
+                <input type="radio" name="transaction-type" value="outgo" checked>
                 <span class="tablink">OutGo</span>
             </label>
         </div>
@@ -70,7 +70,7 @@
                     this.nextElementSibling.classList.add('active');
                 });
             });
-            radios[0].dispatchEvent(new Event('change'));
+            radios[1].dispatchEvent(new Event('change')); // Set OutGo as the default
         }
 
         if ('serviceWorker' in navigator) {
