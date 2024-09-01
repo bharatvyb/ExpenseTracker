@@ -12,11 +12,11 @@
         <h1>BharatVyb Expense Tracker</h1>
         
         <div class="tabs">
-            <label>
+            <label class="toggle-label">
                 <input type="radio" name="transaction-type" value="revenue" checked>
                 <span class="tablink">Revenue</span>
             </label>
-            <label>
+            <label class="toggle-label">
                 <input type="radio" name="transaction-type" value="outgo">
                 <span class="tablink">OutGo</span>
             </label>
@@ -37,7 +37,7 @@
                 <select id="transaction-method">
                     <!-- Dynamically populated options will be here -->
                 </select>
-                <button type="submit">Add Transaction</button>
+                <button type="submit" class="primary-btn">Add Transaction</button>
             </form>
         </div>
         
@@ -70,7 +70,6 @@
                     this.nextElementSibling.classList.add('active');
                 });
             });
-            // Trigger the change event for the initially checked radio button
             radios[0].dispatchEvent(new Event('change'));
         }
 

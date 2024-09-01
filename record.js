@@ -99,6 +99,5 @@ function setupTransactionTypeToggle() {
             this.nextElementSibling.classList.add('active');
         });
     });
-    // Trigger the change event for the initially checked radio button
     radios[0].dispatchEvent(new Event('change'));
 }
