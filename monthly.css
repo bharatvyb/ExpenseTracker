@@ -107,10 +107,11 @@ table tbody tr:nth-child(even) {
 }
 
 /* Modal Styles */
+/* Updated Modal Styles */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000; /* Increase z-index to ensure modal is on top */
     left: 0;
     top: 0;
     width: 100%;
@@ -129,6 +130,8 @@ table tbody tr:nth-child(even) {
     max-width: 500px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1001; /* Ensure modal content is on top of modal background */
+    position: relative; /* Ensure content is positioned above other elements */
 }
 
 .close {
