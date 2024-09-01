@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BharatVyb Expense Tracker - Record</title>
     <link rel="stylesheet" href="record.css">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="container">
@@ -61,7 +61,7 @@
             <a href="settings.html" class="menu-item">Settings</a>
         </div>
     </div>
-    <script src="record.js?v=1.0"></script>
+    <script src="record.js"></script>
     <script>
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
@@ -89,7 +89,7 @@
         }
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
+            navigator.serviceWorker.register('service-worker.js')
             .then(function(registration) {
                 console.log('Service Worker registered with scope:', registration.scope);
             }).catch(function(error) {
