@@ -27,6 +27,9 @@ document.getElementById('export-btn').addEventListener('click', function() {
     const exportsLog = JSON.parse(localStorage.getItem('exportsLog')) || [];
     exportsLog.push({ date: new Date().toISOString(), fileName: fileName });
     localStorage.setItem('exportsLog', JSON.stringify(exportsLog));
+
+    // Display the export message
+    showExportMessage(fileName);
 });
 
 document.getElementById('import-btn').addEventListener('click', function() {
@@ -88,3 +91,15 @@ document.getElementById('import-file').addEventListener('change', function(event
 
     reader.readAsText(file);
 });
+
+function showExportMessage(fileName) {
+    const messageDiv = document.getElementById('export-message');
+    const fileNameSpan = document.getElementById('exported-file-name');
+
+    fileNameSpan.textContent = fileName;
+    messageDiv.style.display = 'block';
+
+    setTimeout(() => {
+        messageDiv.style.display = 'none';
+    }, 6000); // Hide after 6 seconds
+}
