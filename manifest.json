@@ -1,6 +1,6 @@
 {
   "name": "BharatVyb Expense Tracker",
-  "short_name": "ExpenseTracker",
+  "short_name": "Expenses",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
