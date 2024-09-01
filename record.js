@@ -3,8 +3,10 @@ document.getElementById('outgo-form').addEventListener('submit', addOutGo);
 
 function addRevenue(e) {
     e.preventDefault();
+    const revenueDate = document.getElementById('revenue-date').value;
+    console.log('Revenue Date:', revenueDate); // Log the date to verify it's being captured
     const revenue = {
-        date: document.getElementById('revenue-date').value,
+        date: revenueDate,
         amount: parseFloat(document.getElementById('revenue-amount').value),
         memo: document.getElementById('revenue-memo').value,
         category: document.getElementById('revenue-category').value,
@@ -12,12 +14,15 @@ function addRevenue(e) {
     };
     storeTransaction('revenue', revenue);
     document.getElementById('revenue-form').reset();
+    document.getElementById('revenue-date').value = revenueDate; // Set the date back after resetting
 }
 
 function addOutGo(e) {
     e.preventDefault();
+    const outgoDate = document.getElementById('outgo-date').value;
+    console.log('OutGo Date:', outgoDate); // Log the date to verify it's being captured
     const outgo = {
-        date: document.getElementById('outgo-date').value,
+        date: outgoDate,
         amount: parseFloat(document.getElementById('outgo-amount').value),
         memo: document.getElementById('outgo-memo').value,
         category: document.getElementById('outgo-category').value,
@@ -25,6 +30,7 @@ function addOutGo(e) {
     };
     storeTransaction('outgo', outgo);
     document.getElementById('outgo-form').reset();
+    document.getElementById('outgo-date').value = outgoDate; // Set the date back after resetting
 }
 
 function storeTransaction(type, transaction) {
@@ -37,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDefaultMethods();      // Initialize methods if not already in localStorage
     initializeDefaultCategories();  // Initialize categories if not already in localStorage
     loadDropdownValues();
+    setDefaultDateFields();  // Set the default date on page load
 });
 
 function initializeDefaultMethods() {
@@ -90,4 +97,14 @@ function loadDropdownValues() {
         revenueCategorySelect.appendChild(option1);
         outgoCategorySelect.appendChild(option2);
     });
+}
+
+function setDefaultDateFields() {
+    resetDateField('revenue-date');
+    resetDateField('outgo-date');
+}
+
+function resetDateField(dateFieldId) {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById(dateFieldId).value = today;
 }
