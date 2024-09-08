@@ -106,10 +106,10 @@ function createTransactionCard(date, transactions, type) {
             const colorClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
 
             transactionRow.innerHTML = `
-                <span class="${colorClass}">${transaction.amount}</span>
-                <span class="${colorClass}">${transaction.memo}</span>
-                <span class="${colorClass}">${transaction.category}</span>
-                <span class="${colorClass}">${transaction.method}</span>
+                <span class="${colorClass}">${truncateText(transaction.amount.toString())}</span>
+                <span class="${colorClass}">${truncateText(transaction.memo)}</span>
+                <span class="${colorClass}">${truncateText(transaction.category)}</span>
+                <span class="${colorClass}">${truncateText(transaction.method)}</span>
             `;
 
             // Attach click event to the entire row to open the modal
@@ -121,6 +121,13 @@ function createTransactionCard(date, transactions, type) {
 
     card.appendChild(body);
     return card;
+}
+
+function truncateText(text, length = 12) {
+    if (text.length > length) {
+        return text.substring(0, length) + '...';
+    }
+    return text;
 }
 
 function setupModal() {
