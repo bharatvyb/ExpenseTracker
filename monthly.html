@@ -10,7 +10,6 @@
     <div class="container">
         <h1>Monthly Transactions</h1>
         
-        <!-- Internal Tabs for Monthly Page -->
         <div class="tabs">
             <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
             <button class="tablink" onclick="openTab(event, 'All')">All</button>
@@ -18,60 +17,17 @@
         </div>
 
         <div id="Revenue" class="tabcontent">
-            <table id="revenue-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Memo</th>
-                        <th>Category</th>
-                        <th>Method</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Revenue data will be populated here -->
-                </tbody>
-            </table>
+            <div id="revenue-container"></div>
         </div>
 
         <div id="All" class="tabcontent">
-            <table id="all-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Memo</th>
-                        <th>Category</th>
-                        <th>Method</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- All data will be populated here -->
-                </tbody>
-            </table>
+            <div id="all-container"></div>
         </div>
 
         <div id="OutGo" class="tabcontent">
-            <table id="outgo-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Memo</th>
-                        <th>Category</th>
-                        <th>Method</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- OutGo data will be populated here -->
-                </tbody>
-            </table>
+            <div id="outgo-container"></div>
         </div>
 
-        <!-- Modal for Editing Transaction -->
         <div id="edit-modal" class="modal">
             <div class="modal-content">
                 <span class="close" id="close-modal">&times;</span>
@@ -90,9 +46,7 @@
                     <select id="edit-category"></select>
                     
                     <label for="edit-method">Payment Method</label>
-                    <select id="edit-method">
-                        <!-- Options will be populated dynamically -->
-                    </select>
+                    <select id="edit-method"></select>
                     
                     <label for="edit-type">Type</label>
                     <div>
@@ -109,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Bottom Menu -->
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
             <a href="monthly.html" class="menu-item active">Monthly</a>

@@ -1,25 +1,21 @@
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
 
-    // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
 
-    // Get all elements with class="tablink" and remove the class "active"
     tablinks = document.getElementsByClassName("tablink");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("Page loaded, initializing...");
     adjustTabContentHeight();
     window.addEventListener('resize', adjustTabContentHeight);
     loadMonthlyData();
@@ -34,45 +30,94 @@ function adjustTabContentHeight() {
     }
 }
 
-function loadMonthlyData() {
-    console.log("Loading monthly data...");
-    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-    const revenueTable = document.getElementById('revenue-table').getElementsByTagName('tbody')[0];
-    const outgoTable = document.getElementById('outgo-table').getElementsByTagName('tbody')[0];
-    const allTable = document.getElementById('all-table').getElementsByTagName('tbody')[0];
-
-    revenueTable.innerHTML = '';
-    outgoTable.innerHTML = '';
-    allTable.innerHTML = '';
-
-    transactions.forEach((transaction, index) => {
-        let row = document.createElement('tr');
-        row.dataset.index = index;
-        row.style.color = transaction.type === 'revenue' ? 'green' : 'red';
-
-        row.insertCell(0).textContent = transaction.date;
-        row.insertCell(1).textContent = transaction.amount;
-        row.insertCell(2).textContent = transaction.memo;
-        row.insertCell(3).textContent = transaction.category;
-        row.insertCell(4).textContent = transaction.method;
-
-        let editCell = row.insertCell(5);
-        let editBtn = document.createElement('button');
-        editBtn.textContent = 'E';
-        editBtn.className = 'edit-btn';
-        editBtn.addEventListener('click', () => openEditModal(index));
-        editCell.appendChild(editBtn);
-
-        if (transaction.type === 'revenue') {
-            revenueTable.appendChild(row);
-        } else if (transaction.type === 'outgo') {
-            outgoTable.appendChild(row);
+function groupTransactionsByDate(transactions) {
+    return transactions.reduce((acc, transaction, index) => {
+        transaction.index = index;  // Assign index here for proper reference in modal
+        const date = transaction.date;
+        if (!acc[date]) {
+            acc[date] = [];
         }
+        acc[date].push(transaction);
+        return acc;
+    }, {});
+}
 
-        let allRow = row.cloneNode(true);
-        allRow.querySelector('.edit-btn').addEventListener('click', () => openEditModal(index));
-        allTable.appendChild(allRow);
+function loadMonthlyData() {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const groupedTransactions = groupTransactionsByDate(transactions);
+
+    const revenueContainer = document.getElementById('revenue-container');
+    const outgoContainer = document.getElementById('outgo-container');
+    const allContainer = document.getElementById('all-container');
+
+    revenueContainer.innerHTML = '';
+    outgoContainer.innerHTML = '';
+    allContainer.innerHTML = '';
+
+    Object.keys(groupedTransactions).forEach(date => {
+        const dailyTransactions = groupedTransactions[date];
+
+        const revenueCard = createTransactionCard(date, dailyTransactions, 'revenue');
+        const outgoCard = createTransactionCard(date, dailyTransactions, 'outgo');
+        const allCard = createTransactionCard(date, dailyTransactions, 'all');
+
+        revenueContainer.appendChild(revenueCard);
+        outgoContainer.appendChild(outgoCard);
+        allContainer.appendChild(allCard);
     });
+}
+
+function createTransactionCard(date, transactions, type) {
+    const total = transactions.reduce((acc, transaction) => {
+        if (type === 'all') {
+            return transaction.type === 'revenue' ? acc + parseFloat(transaction.amount) : acc - parseFloat(transaction.amount);
+        }
+        return transaction.type === type ? acc + parseFloat(transaction.amount) : acc;
+    }, 0);
+
+    const card = document.createElement('div');
+    card.classList.add('transaction-card');
+
+    const header = document.createElement('div');
+    header.classList.add('card-header');
+    header.innerHTML = `
+        <span class="card-date">${date}</span>
+        <span class="card-total">Total: ${total}</span>
+    `;
+    card.appendChild(header);
+
+    const tableHeader = document.createElement('div');
+    tableHeader.classList.add('table-header');
+    tableHeader.innerHTML = `
+        <span>Amount</span>
+        <span>Memo</span>
+        <span>Category</span>
+        <span>Method</span>
+        <span>Edit</span>
+    `;
+    card.appendChild(tableHeader);
+
+    const body = document.createElement('div');
+    body.classList.add('card-body');
+
+    transactions.forEach(transaction => {
+        if (transaction.type === type || type === 'all') {
+            const transactionRow = document.createElement('div');
+            transactionRow.classList.add('transaction-row');
+            const colorClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
+            transactionRow.innerHTML = `
+                <span class="${colorClass}">${transaction.amount}</span>
+                <span class="${colorClass}">${transaction.memo}</span>
+                <span class="${colorClass}">${transaction.category}</span>
+                <span class="${colorClass}">${transaction.method}</span>
+                <button class="edit-btn" onclick="openEditModal(${transaction.index})">E</button>
+            `;
+            body.appendChild(transactionRow);
+        }
+    });
+
+    card.appendChild(body);
+    return card;
 }
 
 function setupModal() {
@@ -98,7 +143,6 @@ function setupModal() {
 }
 
 function openEditModal(index) {
-    console.log(`Opening modal for index: ${index}`);
     const modal = document.getElementById('edit-modal');
     const editForm = document.getElementById('edit-form');
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
@@ -139,7 +183,6 @@ function openEditModal(index) {
         categoryDropdown.appendChild(option);
     });
 
-    // Set the transaction type radio button
     const typeRadioButtons = document.getElementsByName('edit-type');
     for (let i = 0; i < typeRadioButtons.length; i++) {
         if (typeRadioButtons[i].value.toLowerCase() === transaction.type) {
@@ -157,12 +200,10 @@ function openEditModal(index) {
 }
 
 function closeModal() {
-    console.log("Closing modal.");
     document.getElementById('edit-modal').style.display = 'none';
 }
 
 function saveEdit(index) {
-    console.log(`Saving edit for index: ${index}`);
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const updatedTransaction = {
         date: document.getElementById('edit-date').value,
@@ -170,7 +211,7 @@ function saveEdit(index) {
         memo: document.getElementById('edit-memo').value,
         category: document.getElementById('edit-category').value,
         method: document.getElementById('edit-method').value,
-        type: document.querySelector('input[name="edit-type"]:checked').value.toLowerCase() // Get the selected type and convert it to lowercase
+        type: document.querySelector('input[name="edit-type"]:checked').value.toLowerCase()
     };
 
     transactions[index] = updatedTransaction;
@@ -181,7 +222,6 @@ function saveEdit(index) {
 }
 
 function deleteTransaction(index) {
-    console.log(`Deleting transaction for index: ${index}`);
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     transactions.splice(index, 1);
     localStorage.setItem('transactions', JSON.stringify(transactions));
