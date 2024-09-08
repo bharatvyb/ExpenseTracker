@@ -49,6 +49,40 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Save Button Styles */
+button.save-btn {
+    background-color: #28a745; /* Green color */
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button.save-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Delete Button Styles */
+button.delete-btn {
+    background-color: #dc3545; /* Bootstrap-like red color */
+    color: #ffffff;
+}
+
+button.delete-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Cancel Button Styles */
+button.cancel-btn {
+    background-color: #6c757d; /* Grey color */
+    color: #ffffff;
+}
+
+button.cancel-btn:hover {
+    background-color: #5a6268; /* Darker grey on hover */
+}
+
 /* Table Styles */
 table {
     width: 100%;
@@ -178,14 +212,4 @@ select option {
     text-align: center;
     word-wrap: break-word; /* Ensure the file name wraps if too long */
     display: none; /* Initially hidden */
-}
-
-/* Add this to the existing CSS file */
-button.delete-btn {
-    background-color: #dc3545; /* Bootstrap-like red color */
-    color: #ffffff;
-}
-
-button.delete-btn:hover {
-    background-color: #c82333; /* Darker red on hover */
 }

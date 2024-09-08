@@ -93,7 +93,6 @@ function createTransactionCard(date, transactions, type) {
         <span>Memo</span>
         <span>Category</span>
         <span>Method</span>
-        <span>Edit</span>
     `;
     card.appendChild(tableHeader);
 
@@ -105,13 +104,17 @@ function createTransactionCard(date, transactions, type) {
             const transactionRow = document.createElement('div');
             transactionRow.classList.add('transaction-row');
             const colorClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
+
             transactionRow.innerHTML = `
                 <span class="${colorClass}">${transaction.amount}</span>
                 <span class="${colorClass}">${transaction.memo}</span>
                 <span class="${colorClass}">${transaction.category}</span>
                 <span class="${colorClass}">${transaction.method}</span>
-                <button class="edit-btn" onclick="openEditModal(${transaction.index})">E</button>
             `;
+
+            // Attach click event to the entire row to open the modal
+            transactionRow.addEventListener('click', () => openEditModal(transaction.index));
+
             body.appendChild(transactionRow);
         }
     });
