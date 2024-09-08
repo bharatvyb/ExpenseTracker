@@ -1,3 +1,4 @@
+// Open Tabs
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('defaultOpenMonthly').click();
 });
 
+// Adjust Tab Content Height
 function adjustTabContentHeight() {
     var tabContentElements = document.getElementsByClassName('tabcontent');
     for (var i = 0; i < tabContentElements.length; i++) {
@@ -30,6 +32,7 @@ function adjustTabContentHeight() {
     }
 }
 
+// Group Transactions By Date
 function groupTransactionsByDate(transactions) {
     return transactions.reduce((acc, transaction, index) => {
         transaction.index = index;  // Assign index here for proper reference in modal
@@ -42,9 +45,13 @@ function groupTransactionsByDate(transactions) {
     }, {});
 }
 
+// Load Monthly Data and Sort in Descending Order
 function loadMonthlyData() {
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-    const groupedTransactions = groupTransactionsByDate(transactions);
+    let groupedTransactions = groupTransactionsByDate(transactions);
+
+    // Sort the grouped transactions by date in descending order
+    const sortedDates = Object.keys(groupedTransactions).sort((a, b) => new Date(b) - new Date(a));
 
     const revenueContainer = document.getElementById('revenue-container');
     const outgoContainer = document.getElementById('outgo-container');
@@ -54,7 +61,7 @@ function loadMonthlyData() {
     outgoContainer.innerHTML = '';
     allContainer.innerHTML = '';
 
-    Object.keys(groupedTransactions).forEach(date => {
+    sortedDates.forEach(date => {
         const dailyTransactions = groupedTransactions[date];
 
         const revenueCard = createTransactionCard(date, dailyTransactions, 'revenue');
@@ -67,6 +74,7 @@ function loadMonthlyData() {
     });
 }
 
+// Create Transaction Card with 15 Character Width Columns
 function createTransactionCard(date, transactions, type) {
     const total = transactions.reduce((acc, transaction) => {
         if (type === 'all') {
@@ -91,7 +99,6 @@ function createTransactionCard(date, transactions, type) {
     tableHeader.innerHTML = `
         <span>Amount</span>
         <span>Memo</span>
-        <span>Category</span>
         <span>Method</span>
     `;
     card.appendChild(tableHeader);
@@ -108,11 +115,9 @@ function createTransactionCard(date, transactions, type) {
             transactionRow.innerHTML = `
                 <span class="${colorClass}">${truncateText(transaction.amount.toString())}</span>
                 <span class="${colorClass}">${truncateText(transaction.memo)}</span>
-                <span class="${colorClass}">${truncateText(transaction.category)}</span>
                 <span class="${colorClass}">${truncateText(transaction.method)}</span>
             `;
 
-            // Attach click event to the entire row to open the modal
             transactionRow.addEventListener('click', () => openEditModal(transaction.index));
 
             body.appendChild(transactionRow);
@@ -123,13 +128,15 @@ function createTransactionCard(date, transactions, type) {
     return card;
 }
 
-function truncateText(text, length = 12) {
+// Truncate Text for Memo, Method, and Amount
+function truncateText(text, length = 15) {
     if (text.length > length) {
         return text.substring(0, length) + '...';
     }
     return text;
 }
 
+// Modal Setup Functions
 function setupModal() {
     const modal = document.getElementById('edit-modal');
     const closeModalBtn = document.getElementById('close-modal');
@@ -152,6 +159,7 @@ function setupModal() {
     };
 }
 
+// Open Edit Modal
 function openEditModal(index) {
     const modal = document.getElementById('edit-modal');
     const editForm = document.getElementById('edit-form');
@@ -209,10 +217,12 @@ function openEditModal(index) {
     };
 }
 
+// Close Modal
 function closeModal() {
     document.getElementById('edit-modal').style.display = 'none';
 }
 
+// Save Edited Transaction
 function saveEdit(index) {
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const updatedTransaction = {
@@ -231,6 +241,7 @@ function saveEdit(index) {
     loadMonthlyData();
 }
 
+// Delete Transaction
 function deleteTransaction(index) {
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     transactions.splice(index, 1);

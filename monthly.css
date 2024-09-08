@@ -36,7 +36,7 @@
 
 .tabcontent {
     display: none;
-    padding: 20px;
+    padding: 10px; /* Reduce padding */
     border-top: 1px solid #ddd;
     overflow-y: auto;
     max-height: calc(100vh - 180px);
@@ -48,8 +48,8 @@
 
 .transaction-card {
     border: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding: 10px;
+    margin-bottom: 10px; /* Reduced margin */
+    padding: 5px; /* Reduced padding */
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -58,14 +58,14 @@
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px; /* Reduced margin */
 }
 
 .table-header {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    padding: 10px 0;
+    padding: 5px 0; /* Reduced padding */
     width: 100%;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -77,22 +77,22 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: 5px;
+    padding: 2px; /* Remove extra padding */
     font-weight: bold;
 }
 
 .transaction-row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 5px 0; /* Reduced padding */
     width: 100%;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    transition: background-color 0.2s ease; /* Add smooth hover transition */
+    transition: background-color 0.2s ease;
 }
 
 .transaction-row:hover {
-    background-color: #f5f5f5; /* Restore hover effect */
+    background-color: #f5f5f5;
 }
 
 .transaction-row span {
@@ -101,8 +101,22 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: 5px;
-    font-weight: normal; /* Normal weight for transaction row text */
+    padding: 2px; /* Remove extra padding */
+    font-weight: normal;
+}
+
+/* Set different character width for Amount and Memo columns */
+.transaction-row span:first-child {
+    max-width: 7ch; /* Limit Amount column to 7 characters */
+}
+
+.transaction-row span:nth-child(2) {
+    max-width: 12ch; /* Limit Memo column to 12 characters */
+}
+
+.transaction-row span:nth-child(3),
+.transaction-row span:nth-child(4) {
+    max-width: 10ch; /* Limit other columns to 10 characters */
 }
 
 .revenue-row {
@@ -117,7 +131,7 @@
 @media only screen and (max-width: 600px) {
     .table-header span, .transaction-row span {
         font-size: 14px;
-        padding: 4px;
+        padding: 3px;
     }
 
     .card-header {
