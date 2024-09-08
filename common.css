@@ -171,6 +171,16 @@ table tbody tr:nth-child(even) {
     background-color: #444;
 }
 
+.menu-item.active {
+    background-color: #007bff; /* Active menu item background */
+    font-weight: bold;
+    color: white; /* Ensures text is white on active */
+}
+
+.menu-item.active:hover {
+    background-color: #0056b3;
+}
+
 /* Style for select elements */
 select {
     appearance: none; /* Removes default arrow in some browsers */
