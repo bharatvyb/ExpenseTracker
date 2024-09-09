@@ -63,12 +63,11 @@ function openEditModal(index) {
         categoryDropdown.appendChild(option);
     });
 
-    const typeRadioButtons = document.getElementsByName('edit-type');
-    for (let i = 0; i < typeRadioButtons.length; i++) {
-        if (typeRadioButtons[i].value.toLowerCase() === transaction.type) {
-            typeRadioButtons[i].checked = true;
-            break;
-        }
+    // Ensure the correct transaction type is selected and the toggle buttons are updated
+    if (transaction.type.toLowerCase() === 'revenue') {
+        document.getElementById('edit-revenue').checked = true;
+    } else {
+        document.getElementById('edit-outgo').checked = true;
     }
 
     modal.style.display = 'block';
