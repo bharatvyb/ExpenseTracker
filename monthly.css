@@ -70,7 +70,7 @@
     color: #127780;
 }
 
-/* Adding Table Headers */
+/* Table Headers */
 .table-header {
     display: flex;
     justify-content: space-between;
@@ -78,6 +78,7 @@
     margin-bottom: 10px;
     padding: 5px 0;
     border-bottom: 2px solid #ddd;
+    text-align: left;
 }
 
 .table-header span {
