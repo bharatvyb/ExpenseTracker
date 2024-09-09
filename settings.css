@@ -9,12 +9,22 @@
 .card {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px 15px 10px 15px; /* Reduced bottom padding */
+    border-radius: 10px;  /* More rounded for modern look */
+    padding: 15px 15px 10px 15px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Section Headers */
+h2 {
+    color: #127780;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Profile, Backup, and Advanced Settings Sections */
 .profile-item, .backup-item, .launch-section {
     display: flex;
     justify-content: space-between;
@@ -22,24 +32,27 @@
     margin-bottom: 15px;
 }
 
+/* Labels */
 label {
     font-weight: bold;
-    color: #3c3c3c;
+    color: #333;
+    font-size: 1.1em;
 }
 
-/* Button styles (Primary) */
+/* Button styles */
 .btn-primary {
-    background-color: #007bff;
+    background-color: #127780;
     color: #ffffff;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #0f5f5c;
 }
 
 /* Modal Styles */
@@ -80,6 +93,7 @@ label {
     padding: 10px;
     margin-top: 10px;
     width: 100%;
+    border-radius: 5px;
 }
 
 .save-btn {

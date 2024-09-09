@@ -1,5 +1,3 @@
-/* common.css */
-
 /* General Styles */
 body {
     font-family: 'Arial', sans-serif;
@@ -18,7 +16,7 @@ body {
 
 h1, h2 {
     text-align: center;
-    color: #3c3c3c;
+    color: #127780; /* Updated theme color */
     margin-bottom: 20px;
 }
 
@@ -37,16 +35,18 @@ input, select, button {
     outline: none;
 }
 
+/* Button Styles */
 button {
-    background-color: #007bff;
+    background-color: #127780; /* Updated button color */
     color: #ffffff;
     border: none;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0f5f5c; /* Darker shade for hover */
 }
 
 /* Save Button Styles */
@@ -65,12 +65,22 @@ button.save-btn:hover {
 
 /* Delete Button Styles */
 button.delete-btn {
-    background-color: #dc3545; /* Bootstrap-like red color */
+    background-color: #dc3545; /* Red color */
     color: #ffffff;
 }
 
 button.delete-btn:hover {
     background-color: #c82333; /* Darker red on hover */
+}
+
+/* Edit Button Styles */
+button.edit-btn {
+    background-color: #007bff; /* Blue color */
+    color: #ffffff;
+}
+
+button.edit-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
 }
 
 /* Cancel Button Styles */
@@ -109,7 +119,7 @@ table tbody tr:nth-child(even) {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000; /* Increase z-index to ensure modal is on top */
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -142,7 +152,6 @@ table tbody tr:nth-child(even) {
 .close:hover, .close:focus {
     color: #000;
     text-decoration: none;
-    cursor: pointer;
 }
 
 /* Bottom Menu */
@@ -172,18 +181,18 @@ table tbody tr:nth-child(even) {
 }
 
 .menu-item.active {
-    background-color: #007bff; /* Active menu item background */
+    background-color: #127780; /* Updated theme color for active menu */
     font-weight: bold;
-    color: white; /* Ensures text is white on active */
+    color: white;
 }
 
 .menu-item.active:hover {
-    background-color: #0056b3;
+    background-color: #0f5f5c;
 }
 
 /* Style for select elements */
 select {
-    appearance: none; /* Removes default arrow in some browsers */
+    appearance: none;
     background-color: #f5f5f5;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -195,8 +204,8 @@ select {
 }
 
 select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #127780; /* Updated focus color */
+    box-shadow: 0 0 5px rgba(18, 119, 128, 0.5);
     outline: none;
 }
 
@@ -212,14 +221,14 @@ select option {
     transform: translateX(-50%);
     max-width: 90%;
     padding: 10px 20px;
-    background-color: #d4edda; /* Light green background */
-    color: #155724; /* Dark green text */
+    background-color: #d4edda;
+    color: #155724;
     border: 1px solid #c3e6cb;
     border-radius: 5px;
     font-weight: bold;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
-    word-wrap: break-word; /* Ensure the file name wraps if too long */
-    display: none; /* Initially hidden */
+    word-wrap: break-word;
+    display: none;
 }
