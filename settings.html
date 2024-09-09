@@ -11,26 +11,28 @@
         <h1>Settings</h1>
 
         <!-- User Profile Section -->
-        <h2>User Profile</h2>
-        <div class="profile-section">
+        
+        <div class="card profile-section">
+            <h2>User Profile</h2>
             <div class="profile-item">
                 <label for="user-name">User Name:</label>
-                <span id="user-name">BharatVyb User</span> <!-- Default value, will be updated with the actual name -->
-                <button id="edit-profile-btn">Edit</button>
+                <span id="user-name">BharatVyb</span> <!-- Default value, will be updated with the actual name -->
+                <button id="edit-profile-btn" class="btn-primary">Edit</button>
             </div>
         </div>
 
         <!-- Backup Data Section -->
-        <h2>Backup Data</h2>
-        <div class="backup-section">
+        
+        <div class="card backup-section">
+            <h2>Backup Data</h2>
             <div class="backup-item">
                 <label for="export-btn">Export your data:</label>
-                <button id="export-btn">Export</button>
+                <button id="export-btn" class="btn-primary">Export</button>
             </div>
             <div class="backup-item">
                 <label for="import-btn">Import your data:</label>
                 <input type="file" id="import-file" style="display: none;" accept=".tsv"/>
-                <button id="import-btn">Import</button>
+                <button id="import-btn" class="btn-primary">Import</button>
             </div>
         </div>
 
@@ -39,18 +41,18 @@
             Exported file: <span id="exported-file-name"></span>
         </div>
 
-        <hr>
-
-        <!-- Advanced Settings -->
-        <h2>Advanced Settings</h2>
-        <div class="launch-section">
-            <label for="manage-categories-btn">Manage Categories:</label>
-            <button id="manage-categories-btn" onclick="location.href='manage_categories.html'">Launch</button>
-        </div>
+        <!-- Advanced Settings Section -->
         
-        <div class="launch-section">
-            <label for="manage-payment-methods-btn">Manage Payment Methods:</label>
-            <button id="manage-payment-methods-btn" onclick="location.href='manage_payment_methods.html'">Launch</button>
+        <div class="card advanced-section">
+            <h2>Advanced Settings</h2>
+            <div class="launch-section">
+                <label for="manage-categories-btn">Manage Categories:</label>
+                <button id="manage-categories-btn" class="btn-primary" onclick="location.href='manage_categories.html'">Launch</button>
+            </div>
+            <div class="launch-section">
+                <label for="manage-payment-methods-btn">Manage Payment Methods:</label>
+                <button id="manage-payment-methods-btn" class="btn-primary" onclick="location.href='manage_payment_methods.html'">Launch</button>
+            </div>
         </div>
 
         <!-- Bottom Menu -->
@@ -76,6 +78,6 @@
         </div>
     </div>
 
-    <script src="settings.js?v=1.2"></script>
+    <script src="settings.js?v=1.3"></script>
 </body>
 </html>

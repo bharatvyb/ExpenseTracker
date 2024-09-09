@@ -116,12 +116,13 @@ function closeProfileModal() {
 }
 
 // Save Nickname
-document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nickname = document.getElementById('nickname').value;
-    localStorage.setItem('nickname', nickname);
-    document.getElementById('user-name').textContent = nickname;
-    closeProfileModal();
+// User Profile Edit Logic
+document.getElementById('edit-profile-btn').addEventListener('click', function() {
+    const savedNickname = localStorage.getItem('nickname');  // Retrieve the saved nickname
+    if (savedNickname) {
+        document.getElementById('nickname').value = savedNickname;  // Pre-fill the input field with the existing nickname
+    }
+    document.getElementById('edit-profile-modal').style.display = 'block';
 });
 
 // Load nickname if available
