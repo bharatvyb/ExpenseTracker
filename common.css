@@ -53,44 +53,37 @@ button:hover {
 button.save-btn {
     background-color: #28a745; /* Green color */
     color: #ffffff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
 }
 
 button.save-btn:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
 }
 
 /* Delete Button Styles */
 button.delete-btn {
     background-color: #dc3545; /* Red color */
-    color: #ffffff;
 }
 
 button.delete-btn:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }
 
 /* Edit Button Styles */
 button.edit-btn {
     background-color: #007bff; /* Blue color */
-    color: #ffffff;
 }
 
 button.edit-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 /* Cancel Button Styles */
 button.cancel-btn {
     background-color: #6c757d; /* Grey color */
-    color: #ffffff;
 }
 
 button.cancel-btn:hover {
-    background-color: #5a6268; /* Darker grey on hover */
+    background-color: #5a6268;
 }
 
 /* Table Styles */
@@ -102,7 +95,7 @@ table {
 
 table th, table td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -138,7 +131,6 @@ table tbody tr:nth-child(even) {
     max-width: 500px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
 }
 
 .close {
@@ -151,7 +143,6 @@ table tbody tr:nth-child(even) {
 
 .close:hover, .close:focus {
     color: #000;
-    text-decoration: none;
 }
 
 /* Bottom Menu */
@@ -181,36 +172,13 @@ table tbody tr:nth-child(even) {
 }
 
 .menu-item.active {
-    background-color: #127780; /* Updated theme color for active menu */
+    background-color: #127780;
     font-weight: bold;
     color: white;
 }
 
 .menu-item.active:hover {
     background-color: #0f5f5c;
-}
-
-/* Style for select elements */
-select {
-    appearance: none;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-select:focus {
-    border-color: #127780; /* Updated focus color */
-    box-shadow: 0 0 5px rgba(18, 119, 128, 0.5);
-    outline: none;
-}
-
-select option {
-    padding: 10px;
 }
 
 /* Popup Message Styles */
@@ -231,4 +199,22 @@ select option {
     text-align: center;
     word-wrap: break-word;
     display: none;
+}
+
+/* Style for select elements */
+select {
+    appearance: none;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+    border-color: #127780;
+    box-shadow: 0 0 5px rgba(18, 119, 128, 0.5);
 }

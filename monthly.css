@@ -3,7 +3,7 @@
 .container {
     padding-top: 20px;
     position: relative;
-    padding-bottom: 100px; /* Prevent overlap with bottom menu */
+    padding-bottom: 100px;
 }
 
 .tabs {
@@ -30,9 +30,9 @@
 }
 
 .tablink.active, .tablink:hover {
-    background: #127780; /* Updated theme color */
+    background: #127780;
     color: #ffffff;
-    border-bottom: 2px solid #0f5f5c; /* Darker hover */
+    border-bottom: 2px solid #0f5f5c;
 }
 
 .tabcontent {
@@ -47,46 +47,48 @@
     display: block;
 }
 
+/* Transaction Card */
 .transaction-card {
+    background-color: #ffffff;
     border: 1px solid #ddd;
-    margin-bottom: 10px;
-    padding: 5px;
+    margin-bottom: 15px;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
 }
 
 .transaction-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     color: #127780;
 }
 
+/* Adding Table Headers */
 .table-header {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
+    margin-bottom: 10px;
     padding: 5px 0;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
 }
 
 .table-header span {
     flex: 1;
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding: 2px;
     font-weight: bold;
+    color: #127780;
+    padding: 5px;
 }
 
+/* Styling the rows */
 .transaction-row {
     display: flex;
     justify-content: space-between;
@@ -106,13 +108,13 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: 2px;
-    font-weight: normal;
+    padding: 5px;
 }
 
 /* Set different character width for Amount and Memo columns */
 .transaction-row span:first-child {
     max-width: 7ch;
+    font-weight: bold;
 }
 
 .transaction-row span:nth-child(2) {
@@ -125,11 +127,11 @@
 }
 
 .revenue-row {
-    color: #28a745; /* Green for revenue */
+    color: #28a745;
 }
 
 .outgo-row {
-    color: #dc3545; /* Red for outgoing */
+    color: #dc3545;
 }
 
 /* Responsive adjustments for smaller screens */
