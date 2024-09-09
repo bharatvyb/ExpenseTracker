@@ -9,7 +9,17 @@
 <body>
     <div class="container">
         <h1>Settings</h1>
-        
+
+        <!-- User Profile Section -->
+        <h2>User Profile</h2>
+        <div class="profile-section">
+            <div class="profile-item">
+                <label for="user-name">User Name:</label>
+                <span id="user-name">BharatVyb User</span> <!-- Default value, will be updated with the actual name -->
+                <button id="edit-profile-btn">Edit</button>
+            </div>
+        </div>
+
         <!-- Backup Data Section -->
         <h2>Backup Data</h2>
         <div class="backup-section">
@@ -28,12 +38,11 @@
         <div id="export-message" class="export-message" style="display: none;">
             Exported file: <span id="exported-file-name"></span>
         </div>
-        
-        <hr> <!-- Horizontal line to divide sections -->
 
-        <!-- Launch Manage Payment Methods Screen -->
+        <hr>
+
+        <!-- Advanced Settings -->
         <h2>Advanced Settings</h2>
-        <!-- Launch Manage Categories Screen -->
         <div class="launch-section">
             <label for="manage-categories-btn">Manage Categories:</label>
             <button id="manage-categories-btn" onclick="location.href='manage_categories.html'">Launch</button>
@@ -43,8 +52,6 @@
             <label for="manage-payment-methods-btn">Manage Payment Methods:</label>
             <button id="manage-payment-methods-btn" onclick="location.href='manage_payment_methods.html'">Launch</button>
         </div>
-        
-
 
         <!-- Bottom Menu -->
         <div class="bottom-menu">
@@ -54,6 +61,21 @@
             <a href="settings.html" class="menu-item active">Settings</a>
         </div>
     </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h2>Edit Profile</h2>
+            <form id="edit-profile-form">
+                <label for="nickname">Enter Nickname:</label>
+                <input type="text" id="nickname" required>
+                <button type="submit" class="save-btn">Save</button>
+                <button type="button" class="cancel-btn" id="cancel-profile-edit">Cancel</button>
+            </form>
+        </div>
+    </div>
+
     <script src="settings.js?v=1.2"></script>
 </body>
 </html>

@@ -23,12 +23,10 @@ document.getElementById('export-btn').addEventListener('click', function() {
     a.click();
     window.URL.revokeObjectURL(url);
 
-    // Log export for tracking in localStorage
     const exportsLog = JSON.parse(localStorage.getItem('exportsLog')) || [];
     exportsLog.push({ date: new Date().toISOString(), fileName: fileName });
     localStorage.setItem('exportsLog', JSON.stringify(exportsLog));
 
-    // Display the export message
     showExportMessage(fileName);
 });
 
@@ -101,5 +99,35 @@ function showExportMessage(fileName) {
 
     setTimeout(() => {
         messageDiv.style.display = 'none';
-    }, 6000); // Hide after 6 seconds
+    }, 6000);
 }
+
+// User Profile Edit Logic
+document.getElementById('edit-profile-btn').addEventListener('click', function() {
+    document.getElementById('edit-profile-modal').style.display = 'block';
+});
+
+// Close modal
+document.getElementById('close-modal').addEventListener('click', closeProfileModal);
+document.getElementById('cancel-profile-edit').addEventListener('click', closeProfileModal);
+
+function closeProfileModal() {
+    document.getElementById('edit-profile-modal').style.display = 'none';
+}
+
+// Save Nickname
+document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nickname = document.getElementById('nickname').value;
+    localStorage.setItem('nickname', nickname);
+    document.getElementById('user-name').textContent = nickname;
+    closeProfileModal();
+});
+
+// Load nickname if available
+document.addEventListener('DOMContentLoaded', function() {
+    const savedNickname = localStorage.getItem('nickname');
+    if (savedNickname) {
+        document.getElementById('user-name').textContent = savedNickname;
+    }
+});
