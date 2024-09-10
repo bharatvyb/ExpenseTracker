@@ -1,24 +1,92 @@
 @import url('common.css');
 
-/* Page-specific Styles */
-.container {
-    padding-bottom: 80px; /* Prevent overlap with the bottom menu */
-}
-
-/* Table Styling */
-table {
-    width: 100%;
+/* Adjusting Card Structure */
+.card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
     margin-top: 20px;
-    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-table th, table td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
+/* Align the Add Category button and text box */
+form {
+    display: flex;
+    gap: 10px;
 }
 
-table th {
-    background-color: #f1f1f1;
+#new-category {
+    flex: 1;
+}
+
+/* Button styles */
+.primary-btn {
+    padding: 10px 20px;
+    background-color: #127780;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
     font-weight: bold;
+}
+
+.primary-btn:hover {
+    background-color: #0f5f5c;
+}
+
+/* Styling for category list buttons */
+#category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.category-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-row span {
+    font-size: 1.1em;
+    color: #127780;
+}
+
+/* Edit/Delete buttons */
+.edit-btn, .delete-btn {
+    padding: 8px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;
+    text-align: center;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* Ensure space between bottom of the list and bottom menu */
+.container {
+    padding-bottom: 120px; /* Increase padding to prevent overlap with bottom menu */
 }

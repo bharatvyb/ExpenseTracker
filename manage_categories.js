@@ -12,32 +12,40 @@ function initializeDefaultCategories() {
 }
 
 function loadDropdownValues() {
-    const categoryTableBody = document.getElementById('category-list');
+    const categoryList = document.getElementById('category-list');
     const categories = JSON.parse(localStorage.getItem('categories')) || [];
 
-    categoryTableBody.innerHTML = '';
+    categoryList.innerHTML = '';
     categories.forEach((category, index) => {
-        const row = categoryTableBody.insertRow();
-        const cell1 = row.insertCell(0);
-        const cell2 = row.insertCell(1);
-        const cell3 = row.insertCell(2);
+        const categoryRow = document.createElement('div');
+        categoryRow.classList.add('category-row');
+        
+        const categorySpan = document.createElement('span');
+        categorySpan.textContent = category;
 
-        cell1.textContent = category;
+        const buttonGroup = document.createElement('div');
+        buttonGroup.classList.add('button-group');
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
-        editButton.className = 'edit-btn';
+        editButton.classList.add('edit-btn');
         editButton.onclick = function() {
             editDropdownValue(index);
         };
-        cell2.appendChild(editButton);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('delete-btn');
         deleteButton.onclick = function() {
             deleteDropdownValue(index);
         };
-        cell3.appendChild(deleteButton);
+
+        buttonGroup.appendChild(editButton);
+        buttonGroup.appendChild(deleteButton);
+
+        categoryRow.appendChild(categorySpan);
+        categoryRow.appendChild(buttonGroup);
+        categoryList.appendChild(categoryRow);
     });
 }
 

@@ -13,26 +13,14 @@
         <!-- Manage Category Dropdown -->
         <form id="category-form">
             <input type="text" id="new-category" placeholder="Add new category">
-            <button type="submit">Add</button>
+            <button type="submit" class="primary-btn">Add</button>
         </form>
 
-        <table id="category-table">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody id="category-list">
-                <tr>
-                    <td>Shopping</td>
-                    <td><button class="edit-btn">Edit</button></td>
-                    <td><button class="delete-btn">Delete</button></td>
-                </tr>
-                <!-- More categories will be added dynamically -->
-            </tbody>
-        </table>
+        <div class="card">
+            <div id="category-list">
+                <!-- Categories will be loaded dynamically here -->
+            </div>
+        </div>
     </div>
 
     <!-- Bottom Menu -->
