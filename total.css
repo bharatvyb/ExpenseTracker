@@ -1,16 +1,32 @@
 @import url('common.css');
 
-/* Specific styles for Total page */
 .container {
     padding-bottom: 100px;
 }
 
-/* Tab buttons */
+/* Username Greeting */
+h2#user-greeting {
+    text-align: center;
+    color: #127780;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
 .tabs {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
     gap: 10px;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-label input[type="radio"] {
+    display: none;
 }
 
 .tablink {
@@ -22,21 +38,16 @@
     font-weight: bold;
     color: #3c3c3c;
     transition: all 0.3s ease;
-    width: 120px;
+    width: 150px; /* Make buttons wider */
 }
 
-/* Wider buttons for Revenue and OutGo */
-.tablink-wide {
-    width: 150px;
-}
-
-.tablink.active, .tablink:hover {
+.tablink.active, .toggle-label:hover .tablink {
     background: #127780;
     color: #ffffff;
     border: 2px solid #127780;
 }
 
-/* Card layout for totals */
+/* Card Layout */
 .card {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -44,80 +55,101 @@
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;  /* Allow horizontal scrolling for smaller screens */
 }
 
-/* Heading styles */
 h1, h2 {
     font-size: 24px;
     color: #127780;
     margin-bottom: 20px;
 }
 
-/* Totals styling */
+h3 {
+    color: #127780;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.primary-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #127780;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #0f5f5c;
+}
+
+/* Table Styling */
 .header {
     display: flex;
     justify-content: space-between;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #127780;  /* Totals label color */
-}
-
-.header .total {
-    text-align: right;
-    font-weight: bold;
-}
-
-/* Remove hover effect as requested */
-#transaction-table tbody tr {
-    background-color: transparent;
-}
-
-/* Remove unnecessary hover from table rows */
-#transaction-table tbody tr:hover {
-    background-color: transparent;
-}
-
-/* Color for revenue and outgo */
-.revenue-row td {
-    color: #28a745;
-}
-
-.outgo-row td {
-    color: #dc3545;
-}
-
-/* Bottom Menu */
-.bottom-menu {
-    display: flex;
-    justify-content: space-around;
     padding: 10px;
-    background-color: #333;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 600px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.menu-item {
-    flex: 1;
-    color: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px 0;
-}
-
-.menu-item:hover {
-    background-color: #444;
-}
-
-.menu-item.active {
-    background-color: #127780;
     font-weight: bold;
-    color: white;
 }
 
-.menu-item.active:hover {
-    background-color: #0f5f5c;
+.total {
+    text-align: right;
+}
+
+/* Ensure proper spacing between columns */
+#transaction-table th, #transaction-table td {
+    padding: 10px;
+    text-align: left;
+    width: 50%; /* Adjust the width to split the columns */
+}
+
+#transaction-table th {
+    background-color: #f0f0f0;
+    color: #127780;
+    font-weight: bold;
+}
+
+#transaction-table td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Adjusting content size for small screens */
+@media only screen and (max-width: 600px) {
+    .header span {
+        font-size: 14px;
+    }
+    
+    .total {
+        font-size: 14px;
+    }
+
+    /* Ensure table content doesn't go behind the menu */
+    .card {
+        padding-bottom: 20px;
+    }
+
+    .bottom-menu {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        max-width: 600px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Adjust padding inside the table on small screens */
+    #transaction-table th, #transaction-table td {
+        padding: 8px;
+    }
 }

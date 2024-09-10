@@ -25,7 +25,7 @@ function loadTotalDataForType(transactions, type) {
     const monthlyTotals = calculateMonthlyTotals(transactions, type);
     
     table.innerHTML = '';
-    table.innerHTML += generateTotalsHtml(monthlyTotals, type, type === 'revenue' ? 'green' : 'red');
+    table.innerHTML += generateTotalsHtml(monthlyTotals, type);
 }
 
 function loadTotalAllData(transactions) {
@@ -35,12 +35,10 @@ function loadTotalAllData(transactions) {
     
     const monthlyAll = {};
 
-    // Calculate totals for months with either revenue or outgo
     for (let month in monthlyRevenue) {
         monthlyAll[month] = (monthlyRevenue[month] || 0) - (monthlyOutGo[month] || 0);
     }
     
-    // Ensure that months with only outgoes are included in the monthlyAll calculation
     for (let month in monthlyOutGo) {
         if (!monthlyAll[month]) {
             monthlyAll[month] = -monthlyOutGo[month];
@@ -67,22 +65,20 @@ function calculateMonthlyTotals(transactions, type) {
     return totals;
 }
 
-function generateTotalsHtml(monthlyData, type, color = null) {
+function generateTotalsHtml(monthlyData, type) {
     let html = '';
     let overallTotal = 0;
     
     for (let month in monthlyData) {
         overallTotal += monthlyData[month];
-        const totalColor = color || (monthlyData[month] < 0 ? 'red' : 'green');
         html += `<div class="header">
                     <span>${month}</span>
-                    <span class="total" style="color: ${totalColor};">
+                    <span class="total" style="color: ${monthlyData[month] < 0 ? 'red' : 'green'};">
                         ${monthlyData[month].toFixed(2)}
                     </span>
                 </div>`;
     }
 
-    // Set "Entire duration" to always be black
     html += `<div class="header">
                 <span>Entire duration</span>
                 <span class="total" style="color: black;">
