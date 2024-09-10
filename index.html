@@ -23,6 +23,7 @@
             </label>
         </div>
 
+        <!-- First Card for Adding/Editing Transactions -->
         <div id="Transaction" class="tabcontent active">
             <div class="card">
                 <form id="transaction-form">
@@ -43,6 +44,22 @@
                 </form>
             </div>
         </div>
+
+        <!-- New Card for Showing Transactions of Selected Date -->
+        <div id="transaction-table-card" class="card" style="display: none;">
+            <h3>Transactions done on <span id="selected-date"></span></h3>
+            <table id="transaction-table">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Memo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamically populated rows will be here -->
+                </tbody>
+            </table>
+        </div>
         
         <div class="bottom-menu">
             <a href="index.html" class="menu-item active">Record</a>
@@ -56,7 +73,8 @@
         window.onload = function() {
             setDefaultDate();
             setupTransactionTypeToggle();
-            displayUsername();  // Display the username on page load
+            displayUsername();
+            loadTransactionsForDate();
         };
 
         function setDefaultDate() {
