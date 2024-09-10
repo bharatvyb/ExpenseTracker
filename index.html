@@ -11,6 +11,11 @@
     <div class="container">
         <h1>BharatVyb Expense Tracker</h1>
         
+        <!-- User Profile Section -->
+        <div class="user-profile">
+            <span id="user-display">Hello, <strong id="user-name">BharatVyb</strong></span>
+        </div>
+
         <div class="tabs">
             <label class="toggle-label">
                 <input type="radio" name="transaction-type" value="revenue">
@@ -53,6 +58,7 @@
         window.onload = function() {
             setDefaultDate();
             setupTransactionTypeToggle();
+            displayUsername();  // Call to display the username on load
         };
 
         function setDefaultDate() {
@@ -71,6 +77,11 @@
                 });
             });
             radios[1].dispatchEvent(new Event('change')); // Set OutGo as the default
+        }
+
+        function displayUsername() {
+            const savedUsername = localStorage.getItem('nickname') || 'BharatVyb';  // Fetch saved username
+            document.getElementById('user-name').textContent = savedUsername;  // Set username
         }
 
         if ('serviceWorker' in navigator) {
