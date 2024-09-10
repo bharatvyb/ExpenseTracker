@@ -6,8 +6,8 @@ self.addEventListener('install', function(event) {
         '/',
         'index.html',
         'common.css', // Add common.css to the cache
-        'record.css',
-        'record.js',
+        'index.css',
+        'index.js',
         'settings.css',
         'settings.js',
         'monthly.css',
@@ -20,8 +20,8 @@ self.addEventListener('install', function(event) {
         'manage_payment_methods.css',
         'manage_payment_methods.js',
         'manage_payment_methods.html',
-        'icons/icon-192x192.png',
-        'icons/icon-512x512.png'
+        'icons/icon-192x192_Greenbv.png',
+        'icons/icon-512x512_Greenbv.png'
       ]);
     })
   );
