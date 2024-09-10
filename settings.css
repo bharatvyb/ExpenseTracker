@@ -67,19 +67,24 @@ label {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Modal Content */
 .modal-content {
     background-color: #fff;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
     width: 80%;
     max-width: 400px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
+/* Close Button */
 .close {
     color: #aaa;
-    float: right;
+    position: absolute;
+    right: 20px;
+    top: 10px;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
@@ -89,6 +94,7 @@ label {
     color: #000;
 }
 
+/* Save and Cancel Buttons in Modal */
 .save-btn, .cancel-btn {
     padding: 10px;
     margin-top: 10px;
@@ -99,9 +105,38 @@ label {
 .save-btn {
     background-color: #28a745;
     color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: #218838;
 }
 
 .cancel-btn {
     background-color: #6c757d;
     color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Responsive Modal Adjustments */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;  /* Make modal width responsive */
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .save-btn, .cancel-btn {
+        font-size: 14px;
+    }
 }

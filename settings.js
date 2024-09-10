@@ -27,7 +27,7 @@ document.getElementById('export-btn').addEventListener('click', function() {
     exportsLog.push({ date: new Date().toISOString(), fileName: fileName });
     localStorage.setItem('exportsLog', JSON.stringify(exportsLog));
 
-    showExportMessage(fileName);
+    showDynamicMessage(`Export successful: ${fileName}`);
 });
 
 document.getElementById('import-btn').addEventListener('click', function() {
@@ -84,17 +84,17 @@ document.getElementById('import-file').addEventListener('change', function(event
         localStorage.setItem('methods', JSON.stringify(methods));
         localStorage.setItem('categories', JSON.stringify(categories));
 
-        alert("Data imported successfully!");
+        showDynamicMessage("Import successful!");
     };
 
     reader.readAsText(file);
 });
 
-function showExportMessage(fileName) {
+function showDynamicMessage(message) {
     const messageDiv = document.getElementById('export-message');
-    const fileNameSpan = document.getElementById('exported-file-name');
+    const messageSpan = document.getElementById('dynamic-message');
 
-    fileNameSpan.textContent = fileName;
+    messageSpan.textContent = message;
     messageDiv.style.display = 'block';
 
     setTimeout(() => {
@@ -104,6 +104,10 @@ function showExportMessage(fileName) {
 
 // User Profile Edit Logic
 document.getElementById('edit-profile-btn').addEventListener('click', function() {
+    const savedNickname = localStorage.getItem('nickname');  // Retrieve the saved nickname
+    if (savedNickname) {
+        document.getElementById('nickname').value = savedNickname;  // Pre-fill the input field with the existing nickname
+    }
     document.getElementById('edit-profile-modal').style.display = 'block';
 });
 
@@ -115,14 +119,23 @@ function closeProfileModal() {
     document.getElementById('edit-profile-modal').style.display = 'none';
 }
 
-// Save Nickname
-// User Profile Edit Logic
-document.getElementById('edit-profile-btn').addEventListener('click', function() {
-    const savedNickname = localStorage.getItem('nickname');  // Retrieve the saved nickname
-    if (savedNickname) {
-        document.getElementById('nickname').value = savedNickname;  // Pre-fill the input field with the existing nickname
-    }
-    document.getElementById('edit-profile-modal').style.display = 'block';
+// Save Nickname and show the success message
+document.getElementById('edit-profile-form').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent form submission
+
+    const nickname = document.getElementById('nickname').value;
+
+    // Save the nickname to localStorage
+    localStorage.setItem('nickname', nickname);
+
+    // Update the displayed username
+    document.getElementById('user-name').textContent = nickname;
+
+    // Close the modal
+    closeProfileModal();
+
+    // Show success message
+    showDynamicMessage("Username updated successfully!");
 });
 
 // Load nickname if available
