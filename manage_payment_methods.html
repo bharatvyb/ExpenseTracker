@@ -9,30 +9,19 @@
 <body>
     <div class="container">
         <h1>Manage Payment Methods</h1>
-        
-        <!-- Manage Method Dropdown -->
-        <form id="method-form">
+
+        <!-- Add new payment method section -->
+        <form id="method-form" class="add-section">
             <input type="text" id="new-method" placeholder="Add new payment method">
-            <button type="submit">Add</button>
+            <button type="submit" class="primary-btn">Add</button>
         </form>
 
-        <table id="method-table">
-            <thead>
-                <tr>
-                    <th>Method</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody id="method-list">
-                <tr>
-                    <td>UPI</td>
-                    <td><button class="edit-btn">Edit</button></td>
-                    <td><button class="delete-btn">Delete</button></td>
-                </tr>
-                <!-- More methods will be added dynamically -->
-            </tbody>
-        </table>
+        <!-- Single card for all methods -->
+        <div class="card">
+            <div id="method-list">
+                <!-- Methods will be dynamically populated here -->
+            </div>
+        </div>
     </div>
 
     <!-- Bottom Menu -->

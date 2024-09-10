@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeDefaultMethods();
     loadDropdownValues();
 });
@@ -12,36 +12,47 @@ function initializeDefaultMethods() {
 }
 
 function loadDropdownValues() {
-    const methodTableBody = document.getElementById('method-list');
+    const methodList = document.getElementById('method-list');
     const methods = JSON.parse(localStorage.getItem('methods')) || [];
 
-    methodTableBody.innerHTML = '';
-    methods.forEach((method, index) => {
-        const row = methodTableBody.insertRow();
-        const cell1 = row.insertCell(0);
-        const cell2 = row.insertCell(1);
-        const cell3 = row.insertCell(2);
+    methodList.innerHTML = ''; // Clear the list before adding new entries
 
-        cell1.textContent = method;
+    methods.forEach((method, index) => {
+        const row = document.createElement('div');
+        row.classList.add('method-row');
+
+        const methodName = document.createElement('div');
+        methodName.className = 'method-name';
+        methodName.textContent = method;
+
+        const buttonGroup = document.createElement('div');
+        buttonGroup.className = 'button-group';
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.className = 'edit-btn';
-        editButton.onclick = function() {
+        editButton.onclick = function () {
             editDropdownValue(index);
         };
-        cell2.appendChild(editButton);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
-        deleteButton.onclick = function() {
+        deleteButton.className = 'delete-btn';
+        deleteButton.onclick = function () {
             deleteDropdownValue(index);
         };
-        cell3.appendChild(deleteButton);
+
+        buttonGroup.appendChild(editButton);
+        buttonGroup.appendChild(deleteButton);
+
+        row.appendChild(methodName);
+        row.appendChild(buttonGroup);
+
+        methodList.appendChild(row);
     });
 }
 
-document.getElementById('method-form').addEventListener('submit', function(e) {
+document.getElementById('method-form').addEventListener('submit', function (e) {
     e.preventDefault();
     const newMethod = document.getElementById('new-method').value.trim();
     if (newMethod) {
@@ -62,8 +73,8 @@ function deleteDropdownValue(index) {
 
 function editDropdownValue(index) {
     let methods = JSON.parse(localStorage.getItem('methods')) || [];
-    const newValue = prompt("Edit the method:", methods[index]);
-    if (newValue !== null && newValue.trim() !== "") {
+    const newValue = prompt('Edit the method:', methods[index]);
+    if (newValue !== null && newValue.trim() !== '') {
         methods[index] = newValue.trim();
         localStorage.setItem('methods', JSON.stringify(methods));
         loadDropdownValues();
