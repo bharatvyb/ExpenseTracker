@@ -1,78 +1,123 @@
 @import url('common.css');
 
-/* Page-specific Styles */
+/* Specific styles for Total page */
 .container {
-    padding-top: 20px;
-    position: relative;
     padding-bottom: 100px;
 }
 
-h1 {
-    position: sticky;
-    top: 0;
-    background: #ffffff;
-    z-index: 100;
-    color: #127780;
-}
-
-/* Tabs Styling */
+/* Tab buttons */
 .tabs {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0;
-    position: sticky;
-    top: 60px;
-    background: #ffffff;
-    z-index: 100;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
 }
 
 .tablink {
-    flex: 1;
-    padding: 10px;
+    padding: 10px 20px;
     background: #f0f0f0;
-    border: none;
-    cursor: pointer;
+    border-radius: 5px;
+    border: 2px solid transparent;
     text-align: center;
     font-weight: bold;
     color: #3c3c3c;
-    border-radius: 5px 5px 0 0;
-    border-bottom: 2px solid transparent;
-    transition: background 0.3s, border-bottom 0.3s;
+    transition: all 0.3s ease;
+    width: 120px;
+}
+
+/* Wider buttons for Revenue and OutGo */
+.tablink-wide {
+    width: 150px;
 }
 
 .tablink.active, .tablink:hover {
     background: #127780;
     color: #ffffff;
-    border-bottom: 2px solid #0f5f5c;
+    border: 2px solid #127780;
 }
 
-.tabcontent {
-    display: none;
+/* Card layout for totals */
+.card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
     padding: 20px;
-    border-top: 1px solid #ddd;
-    overflow-y: auto;
-    max-height: calc(100vh - 180px);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.tabcontent.active {
-    display: block;
+/* Heading styles */
+h1, h2 {
+    font-size: 24px;
+    color: #127780;
+    margin-bottom: 20px;
 }
 
-/* Header Styles */
+/* Totals styling */
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    color: #127780;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #127780;  /* Totals label color */
 }
 
-/* Specific styles for the total page */
 .header .total {
-    font-size: 20px;
+    text-align: right;
     font-weight: bold;
 }
 
-.header .total.negative {
+/* Remove hover effect as requested */
+#transaction-table tbody tr {
+    background-color: transparent;
+}
+
+/* Remove unnecessary hover from table rows */
+#transaction-table tbody tr:hover {
+    background-color: transparent;
+}
+
+/* Color for revenue and outgo */
+.revenue-row td {
+    color: #28a745;
+}
+
+.outgo-row td {
     color: #dc3545;
+}
+
+/* Bottom Menu */
+.bottom-menu {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.menu-item {
+    flex: 1;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 0;
+}
+
+.menu-item:hover {
+    background-color: #444;
+}
+
+.menu-item.active {
+    background-color: #127780;
+    font-weight: bold;
+    color: white;
+}
+
+.menu-item.active:hover {
+    background-color: #0f5f5c;
 }
