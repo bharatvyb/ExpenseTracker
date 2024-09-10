@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadMonthlyData();
     setupModal();  // Ensure this is loaded after the modal.js is imported
     document.getElementById('defaultOpenMonthly').click();
+    loadSummaryData();  // Loading summary data
 });
 
 // Adjust Tab Content Height
@@ -74,7 +75,7 @@ function loadMonthlyData() {
     });
 }
 
-// Create Transaction Card with 15 Character Width Columns
+// Create Transaction Card for non-Summary tabs (Revenue, OutGo, All)
 function createTransactionCard(date, transactions, type) {
     const total = transactions.reduce((acc, transaction) => {
         if (type === 'all') {
@@ -128,10 +129,81 @@ function createTransactionCard(date, transactions, type) {
     return card;
 }
 
-// Truncate Text for Memo, Method, and Amount
+// Truncate text for Memo, Method, and Amount in non-Summary tabs
 function truncateText(text, length = 15) {
     if (text.length > length) {
         return text.substring(0, length) + '...';
     }
     return text;
+}
+
+// Create Transaction Card for the Summary tab (Full-width data, no truncation)
+function createSummaryTransactionCard(month, categoriesForMonth) {
+    const card = document.createElement('div');
+    card.classList.add('transaction-card');
+
+    const cardHeader = `<h3>${month}</h3>`;
+    const tableHeader = `
+        <div class="table-header">
+            <span>Category</span>
+            <span>Amount</span>
+        </div>
+    `;
+    card.innerHTML = cardHeader + tableHeader;
+
+    let categoryTotalsHtml = '';
+    categoriesForMonth.forEach(categoryData => {
+        const amountClass = categoryData.amount >= 0 ? 'revenue-row' : 'outgo-row';
+        categoryTotalsHtml += `
+            <div class="transaction-row ${amountClass}">
+                <span>${categoryData.category}</span>
+                <span>${categoryData.amount.toFixed(2)}</span>
+            </div>
+        `;
+    });
+
+    card.innerHTML += categoryTotalsHtml;
+    return card;
+}
+
+// Load category-wise summary
+function loadSummaryData() {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const summaryContainer = document.getElementById('summary-container');
+    summaryContainer.innerHTML = '';  // Clear previous summary
+
+    const monthlyCategoryTotals = calculateMonthlyCategoryTotals(transactions);
+
+    for (let month in monthlyCategoryTotals) {
+        const categoriesForMonth = monthlyCategoryTotals[month];
+        const summaryCard = createSummaryTransactionCard(month, categoriesForMonth);
+        summaryContainer.appendChild(summaryCard);
+    }
+}
+
+// Calculate monthly category totals
+function calculateMonthlyCategoryTotals(transactions) {
+    const monthlyCategoryTotals = {};
+
+    transactions.forEach(transaction => {
+        const month = transaction.date.substring(0, 7);  // Extract YYYY-MM format
+        const category = transaction.category;
+        const typeMultiplier = transaction.type === 'revenue' ? 1 : -1;
+        const amount = transaction.amount * typeMultiplier;
+
+        if (!monthlyCategoryTotals[month]) {
+            monthlyCategoryTotals[month] = [];
+        }
+
+        // Check if the category already exists for the month
+        let categoryData = monthlyCategoryTotals[month].find(cat => cat.category === category);
+
+        if (categoryData) {
+            categoryData.amount += amount;  // Update existing category amount
+        } else {
+            monthlyCategoryTotals[month].push({ category: category, amount: amount });
+        }
+    });
+
+    return monthlyCategoryTotals;
 }

@@ -15,6 +15,7 @@
             <button class="tablink" onclick="openTab(event, 'Revenue')">Revenue</button>
             <button class="tablink" onclick="openTab(event, 'All')">All</button>
             <button class="tablink" onclick="openTab(event, 'OutGo')" id="defaultOpenMonthly">OutGo</button>
+            <button class="tablink" onclick="openTab(event, 'Summary')">Summary</button>
         </div>
 
         <div id="Revenue" class="tabcontent">
@@ -27,6 +28,10 @@
 
         <div id="OutGo" class="tabcontent">
             <div id="outgo-container"></div>
+        </div>
+
+        <div id="Summary" class="tabcontent">
+            <div id="summary-container"></div> <!-- Container for the summary tab -->
         </div>
 
         <div id="edit-modal" class="modal">
@@ -67,12 +72,12 @@
 
         <div class="bottom-menu">
             <a href="index.html" class="menu-item">Record</a>
-            <a href="monthly.html" class="menu-item  active">Monthly</a>
+            <a href="monthly.html" class="menu-item active">Monthly</a>
             <a href="total.html" class="menu-item">Total</a>
             <a href="settings.html" class="menu-item">Settings</a>
         </div>
     </div>
     <script src="monthly.js?v=1.0"></script>
-<script src="modal.js?v=1.0"></script> <!-- Include modal.js after monthly.js -->
+    <script src="modal.js?v=1.0"></script> <!-- Include modal.js after monthly.js -->
 </body>
 </html>

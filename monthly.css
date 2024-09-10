@@ -112,27 +112,41 @@
     padding: 5px;
 }
 
-/* Set different character width for Amount and Memo columns */
-.transaction-row span:first-child {
-    max-width: 7ch;
-    font-weight: bold;
-}
-
-.transaction-row span:nth-child(2) {
-    max-width: 12ch;
-}
-
-.transaction-row span:nth-child(3),
-.transaction-row span:nth-child(4) {
-    max-width: 10ch;
-}
-
 .revenue-row {
     color: #28a745;
 }
 
 .outgo-row {
     color: #dc3545;
+}
+
+/* Additions for Summary Tab */
+.transaction-card h3 {
+    color: #127780; /* App theme color */
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.table-header {
+    font-weight: bold;
+    color: #127780;
+    padding: 5px;
+    border-bottom: 2px solid #ddd;
+}
+
+.transaction-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.revenue-row {
+    color: #28a745; /* Green for revenue */
+}
+
+.outgo-row {
+    color: #dc3545; /* Red for outgo */
 }
 
 /* Responsive adjustments for smaller screens */
