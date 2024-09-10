@@ -10,40 +10,38 @@
 <body>
     <div class="container">
         <h1>BharatVyb Expense Tracker</h1>
-        
-        <!-- User Profile Section -->
-        <div class="user-profile">
-            <span id="user-display">Hello, <strong id="user-name">BharatVyb</strong></span>
-        </div>
+        <h2 id="user-greeting">Hello, <span id="user-name">BharatVyb</span>!</h2>
 
         <div class="tabs">
             <label class="toggle-label">
                 <input type="radio" name="transaction-type" value="revenue">
-                <span class="tablink">Revenue</span>
+                <span class="tablink tablink-wide">Revenue</span>
             </label>
             <label class="toggle-label">
                 <input type="radio" name="transaction-type" value="outgo" checked>
-                <span class="tablink">OutGo</span>
+                <span class="tablink tablink-wide">OutGo</span>
             </label>
         </div>
 
         <div id="Transaction" class="tabcontent active">
-            <form id="transaction-form">
-                <label for="transaction-date">Date</label>
-                <input type="date" id="transaction-date" required>
-                
-                <input type="number" id="transaction-amount" placeholder="Amount" required>
-                <input type="text" id="transaction-memo" placeholder="Memo">
-                <label for="transaction-category">Category</label>
-                <select id="transaction-category">
-                    <!-- Dynamically populated options will be here -->
-                </select>
-                <label for="transaction-method">Payment Method</label>
-                <select id="transaction-method">
-                    <!-- Dynamically populated options will be here -->
-                </select>
-                <button type="submit" class="primary-btn">Add Transaction</button>
-            </form>
+            <div class="card">
+                <form id="transaction-form">
+                    <label for="transaction-date">Date</label>
+                    <input type="date" id="transaction-date" required>
+                    
+                    <input type="number" id="transaction-amount" placeholder="Amount" required>
+                    <input type="text" id="transaction-memo" placeholder="Memo">
+                    <label for="transaction-category">Category</label>
+                    <select id="transaction-category">
+                        <!-- Dynamically populated options will be here -->
+                    </select>
+                    <label for="transaction-method">Payment Method</label>
+                    <select id="transaction-method">
+                        <!-- Dynamically populated options will be here -->
+                    </select>
+                    <button type="submit" class="primary-btn">Add Transaction</button>
+                </form>
+            </div>
         </div>
         
         <div class="bottom-menu">
@@ -58,7 +56,7 @@
         window.onload = function() {
             setDefaultDate();
             setupTransactionTypeToggle();
-            displayUsername();  // Call to display the username on load
+            displayUsername();  // Display the username on page load
         };
 
         function setDefaultDate() {
@@ -77,11 +75,6 @@
                 });
             });
             radios[1].dispatchEvent(new Event('change')); // Set OutGo as the default
-        }
-
-        function displayUsername() {
-            const savedUsername = localStorage.getItem('nickname') || 'BharatVyb';  // Fetch saved username
-            document.getElementById('user-name').textContent = savedUsername;  // Set username
         }
 
         if ('serviceWorker' in navigator) {

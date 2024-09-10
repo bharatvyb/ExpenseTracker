@@ -1,4 +1,3 @@
-// Add event listener for the transaction form submission
 document.getElementById('transaction-form').addEventListener('submit', function(e) {
     addTransaction(e);
 });
@@ -26,24 +25,21 @@ function addTransaction(e) {
     document.getElementById('transaction-date').value = transactionDate; // Set the date back after resetting
 }
 
-// Store transaction in localStorage
 function storeTransaction(transaction) {
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     transactions.push(transaction);
     localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
-// On document load, initialize methods, categories, and username display
 document.addEventListener('DOMContentLoaded', function() {
     initializeDefaultMethods();      // Initialize methods if not already in localStorage
-    initializeDefaultCategories();   // Initialize categories if not already in localStorage
+    initializeDefaultCategories();  // Initialize categories if not already in localStorage
     loadDropdownValues();
     setDefaultDateFields();  // Set the default date on page load
     setupTransactionTypeToggle(); // Setup radio button toggle
-    displayUsername();  // Display the saved username
+    displayUsername();  // Display the username on page load
 });
 
-// Initialize default payment methods if none exist
 function initializeDefaultMethods() {
     let methods = JSON.parse(localStorage.getItem('methods')) || [];
     if (methods.length === 0) {
@@ -52,7 +48,6 @@ function initializeDefaultMethods() {
     }
 }
 
-// Initialize default categories if none exist
 function initializeDefaultCategories() {
     let categories = JSON.parse(localStorage.getItem('categories')) || [];
     if (categories.length === 0) {
@@ -61,7 +56,6 @@ function initializeDefaultCategories() {
     }
 }
 
-// Load the payment methods and categories into dropdowns
 function loadDropdownValues() {
     const transactionMethodSelect = document.getElementById('transaction-method');
     const transactionCategorySelect = document.getElementById('transaction-category');
@@ -87,7 +81,6 @@ function loadDropdownValues() {
     });
 }
 
-// Set the default date for the transaction
 function setDefaultDateFields() {
     resetDateField('transaction-date');
 }
@@ -97,7 +90,6 @@ function resetDateField(dateFieldId) {
     document.getElementById(dateFieldId).value = today;
 }
 
-// Setup toggle buttons for transaction type (Revenue/OutGo)
 function setupTransactionTypeToggle() {
     const radios = document.querySelectorAll('input[name="transaction-type"]');
     radios.forEach(radio => {
@@ -111,8 +103,10 @@ function setupTransactionTypeToggle() {
     radios[1].dispatchEvent(new Event('change')); // Set OutGo as the default
 }
 
-// Display the username at the top of the page
 function displayUsername() {
-    const savedUsername = localStorage.getItem('nickname') || 'BharatVyb';  // Fetch saved username from localStorage or use default
-    document.getElementById('user-name').textContent = savedUsername;  // Update the username display in the HTML
+    const savedNickname = localStorage.getItem('nickname');
+    const userNameSpan = document.getElementById('user-name');
+    if (savedNickname) {
+        userNameSpan.textContent = savedNickname;
+    }
 }
