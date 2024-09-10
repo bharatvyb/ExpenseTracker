@@ -112,15 +112,13 @@ label {
     border-bottom: 1px solid #ddd;
 }
 
-/* Color coding for transactions */
-.revenue-row {
-    background-color: #d4edda;
-    color: #155724;
+/* Apply the same colors from the Monthly screen for transaction types */
+.revenue-row td {
+    color: #28a745;  /* Green text for revenue */
 }
 
-.outgo-row {
-    background-color: #f8d7da;
-    color: #721c24;
+.outgo-row td {
+    color: #dc3545;  /* Red text for outgo */
 }
 
 /* Bottom Menu */
