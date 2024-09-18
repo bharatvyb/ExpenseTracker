@@ -2,7 +2,7 @@
 
 /* Page-specific Styles */
 .container {
-    padding-bottom: 80px; /* Extra padding to prevent overlap with the bottom menu */
+    padding-bottom: 150px; /* Increased padding to make room for the bottom logo and menu */
 }
 
 /* Cards for sections */
@@ -128,12 +128,53 @@ label {
     background-color: #5a6268;
 }
 
-/* Responsive Modal Adjustments */
+/* About Section */
+.about-section {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Logo Container as Bottom Banner */
+.logo-container {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f9f9f9;
+    border-top: 2px solid #ddd; /* Visual separator */
+    margin-top: 20px; /* Add spacing before the logo */
+}
+
+/* Logo Image */
+.logo-image {
+    max-width: 80%; /* Ensure the logo scales nicely */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Adjustments for Larger Screens */
+@media (min-width: 768px) {
+    .logo-image {
+        max-width: 50%; /* Reduce the max-width for larger screens */
+    }
+}
+
+/* Adjustments for Smaller Screens */
 @media (max-width: 600px) {
     .modal-content {
         width: 90%;  /* Make modal width responsive */
         max-width: 90%;
         padding: 15px;
+    }
+
+    .logo-container {
+        padding: 15px 0; /* Adjust padding for smaller screens */
+    }
+
+    .logo-image {
+        max-width: 90%; /* Adjust logo width for smaller screens */
     }
 
     .save-btn, .cancel-btn {
