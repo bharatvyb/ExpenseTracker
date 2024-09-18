@@ -95,37 +95,45 @@ function createTransactionCard(date, transactions, type) {
     `;
     card.appendChild(header);
 
-    const tableHeader = document.createElement('div');
-    tableHeader.classList.add('table-header');
-    tableHeader.innerHTML = `
-        <span>Amount</span>
-        <span>Memo</span>
-        <span>Method</span>
-    `;
-    card.appendChild(tableHeader);
+    // Create the table structure
+    const table = document.createElement('table');
+    table.classList.add('transaction-table');
 
-    const body = document.createElement('div');
-    body.classList.add('card-body');
+    // Create table header
+    const tableHeader = document.createElement('thead');
+    tableHeader.innerHTML = `
+        <tr>
+            <th>Amount</th>
+            <th>Memo</th>
+            <th>Method</th>
+        </tr>
+    `;
+    table.appendChild(tableHeader);
+
+    // Create table body
+    const tableBody = document.createElement('tbody');
 
     transactions.forEach(transaction => {
         if (transaction.type === type || type === 'all') {
-            const transactionRow = document.createElement('div');
-            transactionRow.classList.add('transaction-row');
+            const row = document.createElement('tr');
             const colorClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
+            row.classList.add(colorClass);
 
-            transactionRow.innerHTML = `
-                <span class="${colorClass}">${truncateText(transaction.amount.toString())}</span>
-                <span class="${colorClass}">${truncateText(transaction.memo)}</span>
-                <span class="${colorClass}">${truncateText(transaction.method)}</span>
+            row.innerHTML = `
+                <td>${truncateText(transaction.amount.toString())}</td>
+                <td>${truncateText(transaction.memo)}</td>
+                <td>${truncateText(transaction.method)}</td>
             `;
 
-            transactionRow.addEventListener('click', () => openEditModal(transaction.index));  // Modal-related
+            // Add click event to open edit modal
+            row.addEventListener('click', () => openEditModal(transaction.index));
 
-            body.appendChild(transactionRow);
+            tableBody.appendChild(row);
         }
     });
 
-    card.appendChild(body);
+    table.appendChild(tableBody);
+    card.appendChild(table);
     return card;
 }
 
@@ -138,31 +146,43 @@ function truncateText(text, length = 15) {
 }
 
 // Create Transaction Card for the Summary tab (Full-width data, no truncation)
+// Adjust for summary as well if needed (similar approach)
 function createSummaryTransactionCard(month, categoriesForMonth) {
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
     const cardHeader = `<h3>${month}</h3>`;
-    const tableHeader = `
-        <div class="table-header">
-            <span>Category</span>
-            <span>Amount</span>
-        </div>
-    `;
-    card.innerHTML = cardHeader + tableHeader;
+    const table = document.createElement('table');
+    table.classList.add('transaction-table');
 
-    let categoryTotalsHtml = '';
+    // Create table header
+    const tableHeader = document.createElement('thead');
+    tableHeader.innerHTML = `
+        <tr>
+            <th>Category</th>
+            <th>Amount</th>
+        </tr>
+    `;
+    table.appendChild(tableHeader);
+
+    // Create table body
+    const tableBody = document.createElement('tbody');
+
     categoriesForMonth.forEach(categoryData => {
+        const row = document.createElement('tr');
         const amountClass = categoryData.amount >= 0 ? 'revenue-row' : 'outgo-row';
-        categoryTotalsHtml += `
-            <div class="transaction-row ${amountClass}">
-                <span>${categoryData.category}</span>
-                <span>${categoryData.amount.toFixed(2)}</span>
-            </div>
+        row.classList.add(amountClass);
+
+        row.innerHTML = `
+            <td>${categoryData.category}</td>
+            <td>${categoryData.amount.toFixed(2)}</td>
         `;
+
+        tableBody.appendChild(row);
     });
 
-    card.innerHTML += categoryTotalsHtml;
+    table.appendChild(tableBody);
+    card.appendChild(table);
     return card;
 }
 
