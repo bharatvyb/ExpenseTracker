@@ -10,7 +10,7 @@ document.getElementById('transaction-date').addEventListener('change', function(
 function addOrUpdateTransaction(e) {
     e.preventDefault();
 
-    const transactionType = document.querySelector('input[name="transaction-type"]:checked').value;
+    const transactionType     = document.querySelector('input[name="transaction-type"]:checked').value;
     const transactionDate = document.getElementById('transaction-date').value;
     const transactionAmount = parseFloat(document.getElementById('transaction-amount').value);
     const transactionMemo = document.getElementById('transaction-memo').value;
@@ -52,7 +52,7 @@ function storeTransaction(transaction) {
 // Update existing transaction in localStorage
 function updateTransaction(index, updatedTransaction) {
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-    transactions[index] = updatedTransaction;
+    transactions[parseInt(index, 10)] = updatedTransaction; // Ensure the index is used correctly
     localStorage.setItem('transactions', JSON.stringify(transactions));
 
     document.getElementById('transaction-form').removeAttribute('data-edit-mode');
@@ -83,6 +83,9 @@ function loadTransactionsForDate() {
             row.innerHTML = `
                 <td>${transaction.amount}</td>
                 <td>${transaction.memo}</td>
+                <td>
+                    <button class="delete-btn" onclick="deleteTransaction(${index})">Delete</button>
+                </td>
             `;
             
             // Add click event to populate form for editing
@@ -128,6 +131,16 @@ function resetFormButton() {
     document.querySelector('.primary-btn').textContent = 'Add Transaction';
     document.getElementById('transaction-form').removeAttribute('data-edit-mode');
     document.getElementById('transaction-form').removeAttribute('data-edit-index');
+}
+
+// Delete a transaction
+function deleteTransaction(index) {
+    if (confirm('Are you sure you want to delete this transaction?')) {
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        transactions.splice(index, 1); // Remove the transaction at the given index
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+        loadTransactionsForDate(); // Reload the transactions table
+    }
 }
 
 // Initialize dropdown values and event listeners

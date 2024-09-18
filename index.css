@@ -122,6 +122,21 @@ label {
     transition: background-color 0.3s ease;
 }
 
+/* Delete Button in Table */
+#transaction-table .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#transaction-table .delete-btn:hover {
+    background-color: #c82333;
+}
+
 /* Hover effect on table rows */
 #transaction-table tbody tr:hover {
     background-color: #f5f5f5; /* Light gray hover effect */
