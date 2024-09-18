@@ -10,7 +10,7 @@ document.getElementById('transaction-date').addEventListener('change', function(
 function addOrUpdateTransaction(e) {
     e.preventDefault();
 
-    const transactionType     = document.querySelector('input[name="transaction-type"]:checked').value;
+    const transactionType = document.querySelector('input[name="transaction-type"]:checked').value;
     const transactionDate = document.getElementById('transaction-date').value;
     const transactionAmount = parseFloat(document.getElementById('transaction-amount').value);
     const transactionMemo = document.getElementById('transaction-memo').value;
@@ -63,7 +63,11 @@ function updateTransaction(index, updatedTransaction) {
 function loadTransactionsForDate() {
     const selectedDate = document.getElementById('transaction-date').value;
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-    const filteredTransactions = transactions.filter(transaction => transaction.date === selectedDate);
+    
+    // Create an array of objects that include the transaction and its original index
+    const filteredTransactions = transactions
+        .map((transaction, originalIndex) => ({ ...transaction, originalIndex }))
+        .filter(transaction => transaction.date === selectedDate);
 
     const transactionTableCard = document.getElementById('transaction-table-card');
     const transactionTableBody = document.getElementById('transaction-table').querySelector('tbody');
@@ -74,7 +78,7 @@ function loadTransactionsForDate() {
 
         transactionTableBody.innerHTML = '';  // Clear table body before populating
 
-        filteredTransactions.forEach((transaction, index) => {
+        filteredTransactions.forEach((transaction) => {
             const row = document.createElement('tr');
 
             // Apply revenue-row or outgo-row class based on transaction type
@@ -84,13 +88,19 @@ function loadTransactionsForDate() {
                 <td>${transaction.amount}</td>
                 <td>${transaction.memo}</td>
                 <td>
-                    <button class="delete-btn" onclick="deleteTransaction(${index})">Delete</button>
+                    <button class="delete-btn">Delete</button>
                 </td>
             `;
             
             // Add click event to populate form for editing
             row.addEventListener('click', function() {
-                populateTransactionForEditing(transaction, index);
+                populateTransactionForEditing(transaction, transaction.originalIndex);
+            });
+
+            // Add event listener to the delete button
+            row.querySelector('.delete-btn').addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent triggering the row click event
+                deleteTransaction(transaction.originalIndex);
             });
 
             transactionTableBody.appendChild(row);
@@ -134,10 +144,10 @@ function resetFormButton() {
 }
 
 // Delete a transaction
-function deleteTransaction(index) {
+function deleteTransaction(originalIndex) {
     if (confirm('Are you sure you want to delete this transaction?')) {
         let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-        transactions.splice(index, 1); // Remove the transaction at the given index
+        transactions.splice(originalIndex, 1); // Remove the transaction at the original index
         localStorage.setItem('transactions', JSON.stringify(transactions));
         loadTransactionsForDate(); // Reload the transactions table
     }
