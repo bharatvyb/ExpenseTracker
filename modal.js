@@ -130,5 +130,10 @@ function setupAdditionalModals() {
     };
 }
 
+// Close the Summary Category Modal
+document.getElementById('close-summary-modal').onclick = function () {
+    document.getElementById('summary-category-modal').style.display = 'none';
+};
+
 // Call the setup function for the additional modal
 document.addEventListener('DOMContentLoaded', setupAdditionalModals);

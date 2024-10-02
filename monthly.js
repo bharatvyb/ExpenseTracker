@@ -242,6 +242,7 @@ function truncateText(text, length = 15) {
 
 // Open the Summary Category Modal to show detailed transactions for a category
 // Open the Summary Category Modal to show detailed transactions for a category
+// Open the Summary Category Modal to show detailed transactions for a category
 function openSummaryCategoryModal(category, month) {
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const modal = document.getElementById('summary-category-modal');
@@ -279,12 +280,13 @@ function openSummaryCategoryModal(category, month) {
     const table = document.createElement('table');
     table.classList.add('transaction-table');
 
+    // Create table header with Date, Amount, and Memo columns
     const tableHeader = document.createElement('thead');
     tableHeader.innerHTML = `
         <tr>
+            <th>Date</th>
             <th>Amount</th>
             <th>Memo</th>
-            <th>Payment Method</th>
         </tr>
     `;
     table.appendChild(tableHeader);
@@ -295,10 +297,11 @@ function openSummaryCategoryModal(category, month) {
         const amountClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
         row.classList.add(amountClass);
 
+        // Add Date, Amount, and Memo columns
         row.innerHTML = `
+            <td>${transaction.date}</td>
             <td>${transaction.amount.toFixed(2)}</td>
             <td>${transaction.memo}</td>
-            <td>${transaction.method}</td>
         `;
         tableBody.appendChild(row);
     });
