@@ -137,21 +137,18 @@ function createTransactionCard(date, transactions, type) {
     return card;
 }
 
-// Truncate text for Memo, Method, and Amount in non-Summary tabs
-function truncateText(text, length = 15) {
-    if (text.length > length) {
-        return text.substring(0, length) + '...';
-    }
-    return text;
-}
-
-// Create Transaction Card for the Summary tab (Full-width data, no truncation)
-// Adjust for summary as well if needed (similar approach)
+// Create Transaction Card for the Summary tab with Month-Year at top
 function createSummaryTransactionCard(month, categoriesForMonth) {
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
-    const cardHeader = `<h3>${month}</h3>`;
+    const header = document.createElement('div');
+    header.classList.add('card-header');
+    header.innerHTML = `
+        <span class="card-date">${month}</span>
+    `;
+    card.appendChild(header);
+
     const table = document.createElement('table');
     table.classList.add('transaction-table');
 
@@ -226,4 +223,12 @@ function calculateMonthlyCategoryTotals(transactions) {
     });
 
     return monthlyCategoryTotals;
+}
+
+// Truncate text for Memo, Method, and Amount in non-Summary tabs
+function truncateText(text, length = 15) {
+    if (text.length > length) {
+        return text.substring(0, length) + '...';
+    }
+    return text;
 }
