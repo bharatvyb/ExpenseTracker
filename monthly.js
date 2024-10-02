@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
     loadMonthlyData();
     setupModal();
     document.getElementById('defaultOpenMonthly').click();
-    loadSummaryData();
-    updateSumColors();  // Update colors on initial load
+    loadSummaryData(); // Load the Summary tab data
+    updateSumColors(); // Update colors on initial load
 });
 
 // Adjust Tab Content Height
@@ -35,10 +35,10 @@ function adjustTabContentHeight() {
     }
 }
 
-// Group Transactions By Date
+// Group Transactions By Date for Non-Summary Tabs
 function groupTransactionsByDate(transactions) {
     return transactions.reduce((acc, transaction, index) => {
-        transaction.index = index;  // Assign index here for proper reference in modal
+        transaction.index = index; // Assign index here for proper reference in modal
         const date = transaction.date;
         if (!acc[date]) {
             acc[date] = [];
@@ -48,7 +48,7 @@ function groupTransactionsByDate(transactions) {
     }, {});
 }
 
-// Load Monthly Data and Sort in Descending Order
+// Load Monthly Data for Non-Summary Tabs (Revenue, OutGo, All)
 function loadMonthlyData() {
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     let groupedTransactions = groupTransactionsByDate(transactions);
@@ -67,21 +67,27 @@ function loadMonthlyData() {
     sortedDates.forEach(date => {
         const dailyTransactions = groupedTransactions[date];
 
-        const revenueCard = createTransactionCard(date, dailyTransactions, 'revenue');
-        const outgoCard = createTransactionCard(date, dailyTransactions, 'outgo');
-        const allCard = createTransactionCard(date, dailyTransactions, 'all');
+        const revenueCard = createFilteredTransactionCard(date, dailyTransactions, 'revenue');
+        const outgoCard = createFilteredTransactionCard(date, dailyTransactions, 'outgo');
+        const allCard = createFilteredTransactionCard(date, dailyTransactions, 'all');
 
-        revenueContainer.appendChild(revenueCard);
-        outgoContainer.appendChild(outgoCard);
-        allContainer.appendChild(allCard);
+        if (revenueCard) revenueContainer.appendChild(revenueCard);
+        if (outgoCard) outgoContainer.appendChild(outgoCard);
+        if (allCard) allContainer.appendChild(allCard);
     });
 }
 
-// Create Transaction Card for non-Summary tabs (Revenue, OutGo, All)
-// Modify this function to handle color-based sum display
-// Create Transaction Card for non-Summary tabs (Revenue, OutGo, All)
+// Create Filtered Transaction Card to Skip Empty Transaction Lists
+function createFilteredTransactionCard(date, transactions, type) {
+    const filteredTransactions = transactions.filter(transaction => transaction.type === type || type === 'all');
+    if (filteredTransactions.length === 0) {
+        return null; // Skip cards with no transactions
+    }
+    return createTransactionCard(date, filteredTransactions, type);
+}
+
+// Create Transaction Card for Non-Summary Tabs (Revenue, OutGo, All)
 function createTransactionCard(date, transactions, type) {
-    // Calculate total based on type
     const total = transactions.reduce((acc, transaction) => {
         if (type === 'all') {
             return transaction.type === 'revenue' ? acc + parseFloat(transaction.amount) : acc - parseFloat(transaction.amount);
@@ -89,32 +95,24 @@ function createTransactionCard(date, transactions, type) {
         return transaction.type === type ? acc + parseFloat(transaction.amount) : acc;
     }, 0);
 
-    // Format total for display (negative and red for OutGo type)
     const formattedTotal = type === 'outgo' ? `- ${Math.abs(total).toFixed(2)}` : total.toFixed(2);
-
-    // Create the card element
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
-    // Create card header with date and total sum
     const header = document.createElement('div');
     header.classList.add('card-header');
 
-    // Add appropriate class for color coding based on type and amount
     const totalClass = type === 'outgo' ? 'negative-sum' : (total >= 0 ? 'positive-sum' : 'negative-sum');
 
     header.innerHTML = `
         <span class="card-date">${date}</span>
         <span class="card-total ${totalClass}">Total: ${formattedTotal}</span>
     `;
-
     card.appendChild(header);
 
-    // Create the table structure
     const table = document.createElement('table');
     table.classList.add('transaction-table');
 
-    // Create table header
     const tableHeader = document.createElement('thead');
     tableHeader.innerHTML = `
         <tr>
@@ -125,26 +123,20 @@ function createTransactionCard(date, transactions, type) {
     `;
     table.appendChild(tableHeader);
 
-    // Create table body
     const tableBody = document.createElement('tbody');
-
     transactions.forEach(transaction => {
-        if (transaction.type === type || type === 'all') {
-            const row = document.createElement('tr');
-            const colorClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
-            row.classList.add(colorClass);
+        const row = document.createElement('tr');
+        const colorClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
+        row.classList.add(colorClass);
 
-            row.innerHTML = `
-                <td>${truncateText(transaction.amount.toString())}</td>
-                <td>${truncateText(transaction.memo)}</td>
-                <td>${truncateText(transaction.method)}</td>
-            `;
+        row.innerHTML = `
+            <td>${truncateText(transaction.amount.toString())}</td>
+            <td>${truncateText(transaction.memo)}</td>
+            <td>${truncateText(transaction.method)}</td>
+        `;
 
-            // Add click event to open edit modal
-            row.addEventListener('click', () => openEditModal(transaction.index));
-
-            tableBody.appendChild(row);
-        }
+        row.addEventListener('click', () => openEditModal(transaction.index));
+        tableBody.appendChild(row);
     });
 
     table.appendChild(tableBody);
@@ -152,16 +144,29 @@ function createTransactionCard(date, transactions, type) {
     return card;
 }
 
-// Create Transaction Card for the Summary tab with Month-Year and Total Sum
-// Update the createSummaryTransactionCard to include sum color based on value
+// Load category-wise summary and sort in descending order
+function loadSummaryData() {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const summaryContainer = document.getElementById('summary-container');
+    summaryContainer.innerHTML = '';
+
+    const monthlyCategoryTotals = calculateMonthlyCategoryTotals(transactions);
+    const sortedMonths = Object.keys(monthlyCategoryTotals).sort((a, b) => new Date(b) - new Date(a));
+
+    sortedMonths.forEach(month => {
+        const categoriesForMonth = monthlyCategoryTotals[month];
+        const summaryCard = createSummaryTransactionCard(month, categoriesForMonth);
+        summaryContainer.appendChild(summaryCard);
+    });
+}
+
+// Create Transaction Card for the Summary Tab
 function createSummaryTransactionCard(month, categoriesForMonth) {
     const totalSum = categoriesForMonth.reduce((acc, category) => acc + category.amount, 0);
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
-    // Determine the sum color class
     const sumColorClass = totalSum < 0 ? 'negative-sum' : 'positive-sum';
-
     const header = `
         <div class="card-header">
             <span>${month}</span>
@@ -182,7 +187,6 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
     table.appendChild(tableHeader);
 
     const tableBody = document.createElement('tbody');
-
     categoriesForMonth.forEach(categoryData => {
         const row = document.createElement('tr');
         const amountClass = categoryData.amount >= 0 ? 'revenue-row' : 'outgo-row';
@@ -200,45 +204,11 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
     return card;
 }
 
-// Function to update all sum display colors in existing cards
-function updateSumColors() {
-    const totalElements = document.querySelectorAll('.card-total');
-    totalElements.forEach(element => {
-        const totalValue = parseFloat(element.textContent.replace(/[^-?\d.]/g, ''));
-        if (totalValue < 0) {
-            element.classList.add('negative-sum');
-            element.classList.remove('positive-sum');
-        } else {
-            element.classList.add('positive-sum');
-            element.classList.remove('negative-sum');
-        }
-    });
-}
-
-// Load category-wise summary and sort in descending order
-function loadSummaryData() {
-    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-    const summaryContainer = document.getElementById('summary-container');
-    summaryContainer.innerHTML = '';  // Clear previous summary
-
-    const monthlyCategoryTotals = calculateMonthlyCategoryTotals(transactions);
-
-    // Sort months in descending order
-    const sortedMonths = Object.keys(monthlyCategoryTotals).sort((a, b) => new Date(b) - new Date(a));
-
-    sortedMonths.forEach(month => {
-        const categoriesForMonth = monthlyCategoryTotals[month];
-        const summaryCard = createSummaryTransactionCard(month, categoriesForMonth);
-        summaryContainer.appendChild(summaryCard);
-    });
-}
-
 // Calculate monthly category totals
 function calculateMonthlyCategoryTotals(transactions) {
     const monthlyCategoryTotals = {};
-
     transactions.forEach(transaction => {
-        const month = transaction.date.substring(0, 7);  // Extract YYYY-MM format
+        const month = transaction.date.substring(0, 7);
         const category = transaction.category;
         const typeMultiplier = transaction.type === 'revenue' ? 1 : -1;
         const amount = transaction.amount * typeMultiplier;
@@ -247,16 +217,13 @@ function calculateMonthlyCategoryTotals(transactions) {
             monthlyCategoryTotals[month] = [];
         }
 
-        // Check if the category already exists for the month
         let categoryData = monthlyCategoryTotals[month].find(cat => cat.category === category);
-
         if (categoryData) {
-            categoryData.amount += amount;  // Update existing category amount
+            categoryData.amount += amount;
         } else {
             monthlyCategoryTotals[month].push({ category: category, amount: amount });
         }
     });
-
     return monthlyCategoryTotals;
 }
 
