@@ -79,7 +79,9 @@ function loadMonthlyData() {
 
 // Create Transaction Card for non-Summary tabs (Revenue, OutGo, All)
 // Modify this function to handle color-based sum display
+// Create Transaction Card for non-Summary tabs (Revenue, OutGo, All)
 function createTransactionCard(date, transactions, type) {
+    // Calculate total based on type
     const total = transactions.reduce((acc, transaction) => {
         if (type === 'all') {
             return transaction.type === 'revenue' ? acc + parseFloat(transaction.amount) : acc - parseFloat(transaction.amount);
@@ -87,24 +89,32 @@ function createTransactionCard(date, transactions, type) {
         return transaction.type === type ? acc + parseFloat(transaction.amount) : acc;
     }, 0);
 
+    // Format total for display (negative and red for OutGo type)
+    const formattedTotal = type === 'outgo' ? `- ${Math.abs(total).toFixed(2)}` : total.toFixed(2);
+
+    // Create the card element
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
+    // Create card header with date and total sum
     const header = document.createElement('div');
     header.classList.add('card-header');
-    
-    // Determine the sum color based on value (red for negative, green for positive)
-    const sumColorClass = total < 0 ? 'negative-sum' : 'positive-sum';
+
+    // Add appropriate class for color coding based on type and amount
+    const totalClass = type === 'outgo' ? 'negative-sum' : (total >= 0 ? 'positive-sum' : 'negative-sum');
 
     header.innerHTML = `
         <span class="card-date">${date}</span>
-        <span class="card-total ${sumColorClass}">Total: ${total.toFixed(2)}</span>
+        <span class="card-total ${totalClass}">Total: ${formattedTotal}</span>
     `;
+
     card.appendChild(header);
 
+    // Create the table structure
     const table = document.createElement('table');
     table.classList.add('transaction-table');
 
+    // Create table header
     const tableHeader = document.createElement('thead');
     tableHeader.innerHTML = `
         <tr>
@@ -115,6 +125,7 @@ function createTransactionCard(date, transactions, type) {
     `;
     table.appendChild(tableHeader);
 
+    // Create table body
     const tableBody = document.createElement('tbody');
 
     transactions.forEach(transaction => {
@@ -128,7 +139,10 @@ function createTransactionCard(date, transactions, type) {
                 <td>${truncateText(transaction.memo)}</td>
                 <td>${truncateText(transaction.method)}</td>
             `;
+
+            // Add click event to open edit modal
             row.addEventListener('click', () => openEditModal(transaction.index));
+
             tableBody.appendChild(row);
         }
     });
