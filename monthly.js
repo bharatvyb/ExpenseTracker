@@ -16,13 +16,15 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
+// Ensure that colors are updated after loading data
 document.addEventListener('DOMContentLoaded', function () {
     adjustTabContentHeight();
     window.addEventListener('resize', adjustTabContentHeight);
     loadMonthlyData();
-    setupModal();  // Ensure this is loaded after the modal.js is imported
+    setupModal();
     document.getElementById('defaultOpenMonthly').click();
-    loadSummaryData();  // Loading summary data
+    loadSummaryData();
+    updateSumColors();  // Update colors on initial load
 });
 
 // Adjust Tab Content Height
@@ -76,6 +78,7 @@ function loadMonthlyData() {
 }
 
 // Create Transaction Card for non-Summary tabs (Revenue, OutGo, All)
+// Modify this function to handle color-based sum display
 function createTransactionCard(date, transactions, type) {
     const total = transactions.reduce((acc, transaction) => {
         if (type === 'all') {
@@ -89,17 +92,19 @@ function createTransactionCard(date, transactions, type) {
 
     const header = document.createElement('div');
     header.classList.add('card-header');
+    
+    // Determine the sum color based on value (red for negative, green for positive)
+    const sumColorClass = total < 0 ? 'negative-sum' : 'positive-sum';
+
     header.innerHTML = `
         <span class="card-date">${date}</span>
-        <span class="card-total">Total: ${total}</span>
+        <span class="card-total ${sumColorClass}">Total: ${total.toFixed(2)}</span>
     `;
     card.appendChild(header);
 
-    // Create the table structure
     const table = document.createElement('table');
     table.classList.add('transaction-table');
 
-    // Create table header
     const tableHeader = document.createElement('thead');
     tableHeader.innerHTML = `
         <tr>
@@ -110,7 +115,6 @@ function createTransactionCard(date, transactions, type) {
     `;
     table.appendChild(tableHeader);
 
-    // Create table body
     const tableBody = document.createElement('tbody');
 
     transactions.forEach(transaction => {
@@ -124,10 +128,7 @@ function createTransactionCard(date, transactions, type) {
                 <td>${truncateText(transaction.memo)}</td>
                 <td>${truncateText(transaction.method)}</td>
             `;
-
-            // Add click event to open edit modal
             row.addEventListener('click', () => openEditModal(transaction.index));
-
             tableBody.appendChild(row);
         }
     });
@@ -138,24 +139,25 @@ function createTransactionCard(date, transactions, type) {
 }
 
 // Create Transaction Card for the Summary tab with Month-Year and Total Sum
+// Update the createSummaryTransactionCard to include sum color based on value
 function createSummaryTransactionCard(month, categoriesForMonth) {
-    const totalAmount = categoriesForMonth.reduce((sum, category) => sum + category.amount, 0); // Calculate total amount
-
+    const totalSum = categoriesForMonth.reduce((acc, category) => acc + category.amount, 0);
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
-    const header = document.createElement('div');
-    header.classList.add('card-header');
-    header.innerHTML = `
-        <span class="card-date">${month}</span>
-        <span class="card-total">Overall Sum: ${totalAmount.toFixed(2)}</span>
+    // Determine the sum color class
+    const sumColorClass = totalSum < 0 ? 'negative-sum' : 'positive-sum';
+
+    const header = `
+        <div class="card-header">
+            <span>${month}</span>
+            <span class="card-total ${sumColorClass}">Overall Sum: ${totalSum.toFixed(2)}</span>
+        </div>
     `;
-    card.appendChild(header);
+    card.innerHTML = header;
 
     const table = document.createElement('table');
     table.classList.add('transaction-table');
-
-    // Create table header
     const tableHeader = document.createElement('thead');
     tableHeader.innerHTML = `
         <tr>
@@ -165,7 +167,6 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
     `;
     table.appendChild(tableHeader);
 
-    // Create table body
     const tableBody = document.createElement('tbody');
 
     categoriesForMonth.forEach(categoryData => {
@@ -177,13 +178,27 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
             <td>${categoryData.category}</td>
             <td>${categoryData.amount.toFixed(2)}</td>
         `;
-
         tableBody.appendChild(row);
     });
 
     table.appendChild(tableBody);
     card.appendChild(table);
     return card;
+}
+
+// Function to update all sum display colors in existing cards
+function updateSumColors() {
+    const totalElements = document.querySelectorAll('.card-total');
+    totalElements.forEach(element => {
+        const totalValue = parseFloat(element.textContent.replace(/[^-?\d.]/g, ''));
+        if (totalValue < 0) {
+            element.classList.add('negative-sum');
+            element.classList.remove('positive-sum');
+        } else {
+            element.classList.add('positive-sum');
+            element.classList.remove('negative-sum');
+        }
+    });
 }
 
 // Load category-wise summary and sort in descending order

@@ -192,6 +192,17 @@
     color: #dc3545; /* Red for outgo */
 }
 
+/* Styles for the sum values based on their type */
+.positive-sum {
+    color: #28a745; /* Green for positive sum */
+    font-weight: bold;
+}
+
+.negative-sum {
+    color: #dc3545; /* Red for negative sum */
+    font-weight: bold;
+}
+
 /* Responsive adjustments for smaller screens */
 @media only screen and (max-width: 600px) {
     .table-header span, .transaction-row span {
