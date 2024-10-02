@@ -148,8 +148,9 @@ label {
 
 /* Logo Image */
 .logo-image {
-    max-width: 80%; /* Ensure the logo scales nicely */
-    height: auto;
+    width: 100%; /* Make the image take up the full width */
+    max-width: 100%; /* Ensure it scales correctly */
+    height: auto; /* Maintain aspect ratio */
     display: block;
     margin: 0 auto;
 }
@@ -157,27 +158,23 @@ label {
 /* Adjustments for Larger Screens */
 @media (min-width: 768px) {
     .logo-image {
-        max-width: 50%; /* Reduce the max-width for larger screens */
+        max-width: 100%; /* Maintain full width for larger screens */
     }
 }
 
-/* Adjustments for Smaller Screens */
+/* Responsive Adjustments for Smaller Screens */
 @media (max-width: 600px) {
-    .modal-content {
-        width: 90%;  /* Make modal width responsive */
-        max-width: 90%;
-        padding: 15px;
-    }
-
     .logo-container {
         padding: 15px 0; /* Adjust padding for smaller screens */
     }
-
-    .logo-image {
-        max-width: 90%; /* Adjust logo width for smaller screens */
-    }
-
-    .save-btn, .cancel-btn {
-        font-size: 14px;
-    }
 }
+
+/* Adjustments for very small screens */
+@media (max-width: 480px) {
+    .logo-image {
+        max-width: 30%; /* Further reduce the size for very small screens */
+    }
+
+    .logo-container {
+        padding: 5px 0; /* Minimize padding */
+    }
