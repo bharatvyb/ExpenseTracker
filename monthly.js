@@ -241,6 +241,7 @@ function truncateText(text, length = 15) {
 }
 
 // Open the Summary Category Modal to show detailed transactions for a category
+// Open the Summary Category Modal to show detailed transactions for a category
 function openSummaryCategoryModal(category, month) {
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const modal = document.getElementById('summary-category-modal');
@@ -254,14 +255,25 @@ function openSummaryCategoryModal(category, month) {
     // Calculate the total sum for the category transactions
     const totalSum = categoryTransactions.reduce((acc, t) => acc + (t.type === 'revenue' ? t.amount : -t.amount), 0);
 
-    // Update the modal header with the total sum
-    const sumColorClass = totalSum < 0 ? 'negative-sum' : 'positive-sum';
+    // Update the modal header with the category and month
     document.getElementById('summary-modal-header').innerHTML = `
-        <h3>Transactions for ${category} in ${month} - <span class="${sumColorClass}">Total: ${totalSum.toFixed(2)}</span></h3>
+        <h3>Transactions for ${category} in ${month}</h3>
     `;
 
     // Clear previous modal data
     modalBody.innerHTML = '';
+
+    // Create a new card for the total sum and transactions table
+    const card = document.createElement('div');
+    card.classList.add('modal-transaction-card');
+
+    // Create a header for the total sum
+    const totalSumElement = document.createElement('div');
+    const sumColorClass = totalSum < 0 ? 'negative-sum' : 'positive-sum';
+    totalSumElement.classList.add('card-header');
+    totalSumElement.innerHTML = `
+        <span class="${sumColorClass}">Total: ${totalSum.toFixed(2)}</span>
+    `;
 
     // Create a table for the detailed transactions
     const table = document.createElement('table');
@@ -292,7 +304,9 @@ function openSummaryCategoryModal(category, month) {
     });
 
     table.appendChild(tableBody);
-    modalBody.appendChild(table);
+    card.appendChild(totalSumElement);  // Add total sum to the card
+    card.appendChild(table);            // Add the table to the card
+    modalBody.appendChild(card);        // Add the card to the modal body
 
     // Open the modal
     modal.style.display = 'block';
