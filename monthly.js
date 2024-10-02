@@ -137,8 +137,10 @@ function createTransactionCard(date, transactions, type) {
     return card;
 }
 
-// Create Transaction Card for the Summary tab with Month-Year at top
+// Create Transaction Card for the Summary tab with Month-Year and Total Sum
 function createSummaryTransactionCard(month, categoriesForMonth) {
+    const totalAmount = categoriesForMonth.reduce((sum, category) => sum + category.amount, 0); // Calculate total amount
+
     const card = document.createElement('div');
     card.classList.add('transaction-card');
 
@@ -146,6 +148,7 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
     header.classList.add('card-header');
     header.innerHTML = `
         <span class="card-date">${month}</span>
+        <span class="card-total">Overall Sum: ${totalAmount.toFixed(2)}</span>
     `;
     card.appendChild(header);
 
@@ -183,7 +186,7 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
     return card;
 }
 
-// Load category-wise summary
+// Load category-wise summary and sort in descending order
 function loadSummaryData() {
     const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     const summaryContainer = document.getElementById('summary-container');
@@ -191,11 +194,14 @@ function loadSummaryData() {
 
     const monthlyCategoryTotals = calculateMonthlyCategoryTotals(transactions);
 
-    for (let month in monthlyCategoryTotals) {
+    // Sort months in descending order
+    const sortedMonths = Object.keys(monthlyCategoryTotals).sort((a, b) => new Date(b) - new Date(a));
+
+    sortedMonths.forEach(month => {
         const categoriesForMonth = monthlyCategoryTotals[month];
         const summaryCard = createSummaryTransactionCard(month, categoriesForMonth);
         summaryContainer.appendChild(summaryCard);
-    }
+    });
 }
 
 // Calculate monthly category totals

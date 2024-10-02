@@ -70,6 +70,12 @@
     color: #127780;
 }
 
+.card-total {
+    font-size: 16px;
+    color: #127780;
+    font-weight: bold;
+}
+
 /* Table Headers */
 .table-header {
     display: flex;
