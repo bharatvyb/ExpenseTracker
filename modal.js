@@ -109,3 +109,26 @@ function deleteTransaction(index) {
     localStorage.setItem('transactions', JSON.stringify(transactions));
     loadMonthlyData(); // Monthly data reload after delete
 }
+
+// Close Summary Category Modal
+function closeSummaryCategoryModal() {
+    const modal = document.getElementById('summary-category-modal');
+    modal.style.display = 'none';
+}
+
+// Setup for additional modals
+function setupAdditionalModals() {
+    const summaryCategoryModal = document.getElementById('summary-category-modal');
+    const closeSummaryModalBtn = document.getElementById('close-summary-modal');
+
+    closeSummaryModalBtn.onclick = closeSummaryCategoryModal;
+
+    window.onclick = function (event) {
+        if (event.target == summaryCategoryModal) {
+            closeSummaryCategoryModal();
+        }
+    };
+}
+
+// Call the setup function for the additional modal
+document.addEventListener('DOMContentLoaded', setupAdditionalModals);

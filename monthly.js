@@ -161,6 +161,7 @@ function loadSummaryData() {
 }
 
 // Create Transaction Card for the Summary Tab
+// Update the Summary Tab creation to add the click event for the modal popup
 function createSummaryTransactionCard(month, categoriesForMonth) {
     const totalSum = categoriesForMonth.reduce((acc, category) => acc + category.amount, 0);
     const card = document.createElement('div');
@@ -196,6 +197,10 @@ function createSummaryTransactionCard(month, categoriesForMonth) {
             <td>${categoryData.category}</td>
             <td>${categoryData.amount.toFixed(2)}</td>
         `;
+
+        // Add click event to open the detailed modal
+        row.onclick = () => openSummaryCategoryModal(categoryData.category, month);
+
         tableBody.appendChild(row);
     });
 
@@ -233,4 +238,62 @@ function truncateText(text, length = 15) {
         return text.substring(0, length) + '...';
     }
     return text;
+}
+
+// Open the Summary Category Modal to show detailed transactions for a category
+function openSummaryCategoryModal(category, month) {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const modal = document.getElementById('summary-category-modal');
+    const modalBody = document.getElementById('summary-category-modal-body');
+    
+    // Filter transactions for the given category and month
+    const categoryTransactions = transactions
+        .filter(t => t.category === category && t.date.startsWith(month))
+        .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
+
+    // Calculate the total sum for the category transactions
+    const totalSum = categoryTransactions.reduce((acc, t) => acc + (t.type === 'revenue' ? t.amount : -t.amount), 0);
+
+    // Update the modal header with the total sum
+    const sumColorClass = totalSum < 0 ? 'negative-sum' : 'positive-sum';
+    document.getElementById('summary-modal-header').innerHTML = `
+        <h3>Transactions for ${category} in ${month} - <span class="${sumColorClass}">Total: ${totalSum.toFixed(2)}</span></h3>
+    `;
+
+    // Clear previous modal data
+    modalBody.innerHTML = '';
+
+    // Create a table for the detailed transactions
+    const table = document.createElement('table');
+    table.classList.add('transaction-table');
+
+    const tableHeader = document.createElement('thead');
+    tableHeader.innerHTML = `
+        <tr>
+            <th>Amount</th>
+            <th>Memo</th>
+            <th>Payment Method</th>
+        </tr>
+    `;
+    table.appendChild(tableHeader);
+
+    const tableBody = document.createElement('tbody');
+    categoryTransactions.forEach(transaction => {
+        const row = document.createElement('tr');
+        const amountClass = transaction.type === 'revenue' ? 'revenue-row' : 'outgo-row';
+        row.classList.add(amountClass);
+
+        row.innerHTML = `
+            <td>${transaction.amount.toFixed(2)}</td>
+            <td>${transaction.memo}</td>
+            <td>${transaction.method}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    table.appendChild(tableBody);
+    modalBody.appendChild(table);
+
+    // Open the modal
+    modal.style.display = 'block';
 }
